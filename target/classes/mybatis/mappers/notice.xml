@@ -47,7 +47,7 @@
  	</insert>
  	
  	<!-- 03. 공지사항 상세보기 조회 -->
- 	<select id="viewNotice" resultMap="noticeResult">
+ 	<select id="viewNotice" resultType="noticeVO" parameterType="int">
  		SELECT * FROM notice_page
  		WHERE no_number = #{no_number}
  	</select>

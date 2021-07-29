@@ -50,8 +50,13 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	//03. 공지사항 상세보기
 	@Override
-	public NoticeVO viewNotice(int no_number) throws DataAccessException {
-		return noticeDAO.viewNotice(no_number);
+	public Map viewNotice(int no_number) throws DataAccessException {
+		Map noticeMap = new HashMap();
+		NoticeVO noticeVO = noticeDAO.viewNotice(no_number);
+		
+		noticeMap.put("notice", noticeVO);
+		
+		return noticeMap;
 	}
 
 	
@@ -63,10 +68,10 @@ public class NoticeServiceImpl implements NoticeService {
 
 	//05-2. 공지사항 수정
 	@Override
-	public int modNotice(NoticeVO noticeVO) throws DataAccessException {
-		System.out.println("====service");
-		return noticeDAO.updateNotice(noticeVO);
-		
+	public Map updateNotice(Map noticeMap) throws Exception {
+
+		noticeDAO.updateNotice(noticeMap);
+		return noticeMap;
 	}
 
 

@@ -9,6 +9,8 @@
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="notice" value="${noticleMap.notice }" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -49,6 +51,7 @@
         	<!-- 공지사항 제목 -->
         	<div class="writer_header" style="padding: 20px;">
         		<input type="text" name="no_title" style="width:600px;" value="${notice.no_title }">
+        		<input type="hidden" name="no_number" value="${notice.no_number }" />
         	</div>
         	<!-- 공지사항 내용 -->
         	<div class="writer_content">
