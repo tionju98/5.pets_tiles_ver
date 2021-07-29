@@ -54,12 +54,11 @@ public class NoticeDAOImpl implements NoticeDAO{
 	
 	//05. 공지사항 수정
 	@Override
-	public int updateNotice(NoticeVO noticeVO) throws DataAccessException {
-		int result = sqlSession.update("mapper.notice.updateNotice",noticeVO);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DAO");
-		return result;
+	public void updateNotice(Map noticeMap) throws DataAccessException {
+		sqlSession.update("mapper.notice.updateNotice",noticeMap);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DAO");	
 	}
-	
+
 	
 
 }

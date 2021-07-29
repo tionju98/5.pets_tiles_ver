@@ -114,20 +114,68 @@ public class NoticeControllerImpl implements NoticeController {
 		
 		String viewName = (String)request.getAttribute("viewName");
 		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$no_number : "+no_number);
+		
+		Map noticleMap = noticeService.viewNotice(no_number);
+		
+		
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName(viewName);
-		mav.addObject("notice",noticeService.viewNotice(no_number));
+		mav.addObject("noticleMap", noticleMap);
 		
 		return mav;
 	}
 
-
+	
+	// 05. 공지사항 수정폼 이동  -- 상세화면과 내용 중복됨
+	@RequestMapping(value = "/notice/updateNotice.do", method = {RequestMethod.GET, RequestMethod.POST} )
+	public ModelAndView updateNotice(@RequestParam("no_number") int no_number,HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("html/text;charset=utf-8");
+		
+		String viewName = (String) request.getAttribute("viewName");
+		
+		Map noticleMap = noticeService.viewNotice(no_number);
+		
+		logger.info("viewName"+viewName);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("noticleMap", noticleMap);
+		
+		mav.setViewName(viewName);
+		
+		return mav;
+	}	
+	
+	
+	//05-2. 공지사항 수정
 	@Override
-	public ModelAndView viewNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "/notice/modNotice.do", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView updateNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		
+		int no_number = Integer.parseInt(request.getParameter("no_number"));
+		String no_title = request.getParameter("no_title");
+		String no_content = request.getParameter("no_content");
+		
+		Map noticeMap = new HashMap();
+		noticeMap.put("no_number", no_number);
+		noticeMap.put("no_title", no_title);
+		noticeMap.put("no_content", no_content);
+		
+		Map updateMap = noticeService.updateNotice(noticeMap);
+		
+		
+		//아래 변경예정
+		
+		
+		
+		System.out.println("=====controller");
+		ModelAndView mav = new ModelAndView("redirect:/notice/listNotices.do");
+		
+		return mav;
 	}
+	
 
 
 	//04. 공지사항 삭제
@@ -149,56 +197,17 @@ public class NoticeControllerImpl implements NoticeController {
 	}
 
 
-	// 05. 공지사항 수정폼 이동
-	@RequestMapping(value = "/notice/updateNotice.do", method = {RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView updateNotice(@RequestParam("no_number") int no_number,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("html/text;charset=utf-8");
-		
-		String viewName = (String) request.getAttribute("viewName");
-		
-		logger.info("viewName"+viewName);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("notice",noticeService.viewNotice(no_number));
-		mav.setViewName(viewName);
-		
-		return mav;
-	}
-	
 	@Override
-	public ModelAndView updateNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView modNotice(NoticeVO noticeVO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-
-	//05-2. 공지사항 수정
-	@Override
-	@RequestMapping(value = "/notice/modNotice.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView modNotice(@ModelAttribute("notice") NoticeVO noticeVO,HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		
-		int result = noticeService.modNotice(noticeVO);
-		System.out.println("=====controller");
-		ModelAndView mav = new ModelAndView("redirect:/notice/listNotices.do");
-		
-		return mav;
-	}
+	
 
 
 
-
-	
-
-    
-
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/*

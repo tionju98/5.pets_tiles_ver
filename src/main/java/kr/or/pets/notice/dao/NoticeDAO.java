@@ -24,11 +24,8 @@ public interface NoticeDAO {
 	//04. 공지사항 삭제
 	public int removeNotice(int no_number) throws DataAccessException;
 	
-	//05-1. 공지사항 수정폼 이동
-	public int updateNotice(NoticeVO noticeVO) throws DataAccessException;
-	
 	//05-2. 공지사항 수정
-	 
+	public void updateNotice(Map noticeMap) throws DataAccessException;
 
 	
 	/* public void updateNotice(Map noticeMap) throws DataAccessException; */

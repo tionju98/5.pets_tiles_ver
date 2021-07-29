@@ -8,6 +8,7 @@
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="notice" value="${noticleMap.notice }" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
     
 <!DOCTYPE html>
 <html>
