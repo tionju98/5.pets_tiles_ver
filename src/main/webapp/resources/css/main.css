@@ -1,0 +1,6 @@
+@charset "UTF-8";
+.dot_line {
+	border-bottom-color: rgb(102,102,102);
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+}

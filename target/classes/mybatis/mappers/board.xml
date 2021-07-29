@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+   <mapper namespace="mapper.board">
+  
+  <resultMap type="boardVO" id="boardResult">
+  	<result property="level" column="lvl"/>
+  	<result property="qa_No"  column="qa_No" />
+  	<result property="qa_parentNo"  column="qa_parentNo" />
+  	<result property="qa_title"  column="qa_title" />
+  	<result property="qa_category"  column="qa_category" />
+  	<result property="qa_content"  column="qa_content" />
+  	<result property="qa_date"  column="qa_date" />
+  	<result property="user_ID"  column="user_ID" />
+  </resultMap>
+   
+  <select id="selectAllBoardList" resultMap="boardResult">
+  <![CDATA[
+  	
+ 	 select * from (
+		                select rownum as recNum, lvl
+		                      ,qa_No
+		                      ,qa_parentNo
+		                      ,qa_title
+		                      ,qa_category
+		                      ,qa_content
+		                      ,qa_date
+		                      ,user_ID
+		                from (select level as lvl
+		                              ,qa_No
+		                              ,qa_parentNo
+				                      ,qa_title
+				                      ,qa_category
+				                      ,qa_content
+				                      ,qa_date
+				                      ,user_ID
+		                        from q_board
+		                        start WITH qa_parentNo=0              
+		                        CONNECT by PRIOR qa_No=qa_parentNo 
+		                        order SIBLINGS by qa_No desc
+		                      )  
+		            )
+		where recNum BETWEEN (#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10 
+ 
+  ]]>
+  </select>
+  
+  <select id="selectTotBoards" resultType="int">
+		select count(qa_No) from q_board
+	</select>
+  
+  <insert id="insertBoard" parameterType="boardVO">
+  	<![CDATA[
+  		insert into q_board (qa_no, qa_title, qa_category, qa_content, user_ID)
+
+  		values(
+  			(select nvl(max(qa_no)+1, 1)from q_board),
+  			#{qa_title}, #{qa_category}, #{qa_content}, #{user_ID}
+  		)
+  	]]>
+  </insert>
+  
+  <delete id="deleteBoard" parameterType="Integer">
+  		<![CDATA[
+  			delete from q_board
+  			where
+  			qa_No=#{qa_No}
+  		]]>
+  	</delete>
+  
+  <select id="viewBoard" parameterType="Integer" resultType="boardVO">
+  	<![CDATA[
+  		select * from q_board
+  		where 
+  		qa_No=#{qa_No}
+  	]]>
+  </select>
+  
+  <update id="updateBoard" parameterType="java.util.Map" >
+  	<![CDATA[
+  		update q_board set
+  			qa_title = #{qa_title},
+  			qa_category = #{qa_category},
+  			qa_content = #{qa_content}
+  		where qa_No = #{qa_No}
+  	]]>
+  </update>
+  
+  </mapper>

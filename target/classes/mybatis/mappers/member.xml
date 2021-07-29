@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="mapper.member">
+  	<resultMap type="memberVO" id="memResult">
+  		<result property="user_ID" column="user_ID"/>
+  		<result property="user_PW" column="user_PW"/>
+  		<result property="user_NAME" column="user_NAME"/>
+  		<result property="user_Email" column="user_Email"/>
+  		<result property="user_Address" column="user_Address"/>
+  		<result property="user_PhoneNumber" column="user_PhoneNumber"/>
+  		<result property="user_IC" column="user_IC"/>
+  	</resultMap>
+  	
+  	<select id="selectAllMemberList" resultMap="memResult">
+  		<![CDATA[
+  			SELECT * FROM pets_user
+  		]]>
+  	</select>
+  	
+  	<select id="selectAllShelterList" resultMap="memResult">
+  		<![CDATA[
+  				SELECT * FROM pets_user
+  				where user_IC like '%Corporation%'
+  		]]>
+  	</select>
+  	
+  	
+  	
+  	<insert id="insertMember" parameterType="memberVO" >
+  		<![CDATA[
+  			INSERT INTO pets_user(user_ID, user_PW, user_NAME, user_Email, user_Address, user_PhoneNumber, user_IC)
+  			VALUES (#{user_ID}, #{user_PW}, #{user_NAME}, #{user_Email}, #{user_Address}, #{user_PhoneNumber}, #{user_IC, jdbcType=VARCHAR})
+  		]]>
+  	</insert>
+  	
+  	<delete id="deleteMember" parameterType="String">
+  		<![CDATA[
+  			DELETE FROM pets_user
+  			WHERE user_ID = #{user_ID}
+  		]]>
+  	</delete>
+  	
+  	<select id="loginById" resultType="memberVO" parameterType="memberVO">
+		<![CDATA[
+			SELECT * FROM  pets_user
+			WHERE user_ID=#{user_ID} AND user_PW=#{user_PW}
+		]]>
+	</select>
+  	
+  </mapper>
