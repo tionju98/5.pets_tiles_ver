@@ -303,6 +303,45 @@ public class NoticeControllerImpl implements NoticeController {
 		
 		return mav;
 	}
+
+	
+	
+
+
+
+	
+	
+	/*
+	 * //02-2. 공지사항 등록 처리
+	 * 
+	 * @Override
+	 * 
+	 * @RequestMapping(value = "notice/addNotice.do", method = RequestMethod.POST)
+	 * public ModelAndView addNotice(HttpServletRequest request, HttpServletResponse
+	 * response) throws Exception { request.setCharacterEncoding("utf-8");
+	 * response.setContentType("html/text;charset=utf-8");
+	 * 
+	 * NoticeVO noticeVO = new NoticeVO();
+	 * 
+	 * int result = noticeService.addNotice(noticeVO);
+	 * 
+	 * ModelAndView mav = new ModelAndView("redirect:/notice/listNotices.do");
+	 * 
+	 * return mav; }
+	 */
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 
 

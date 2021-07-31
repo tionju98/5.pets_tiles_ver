@@ -15,7 +15,9 @@ public interface NoticeService {
 	 	public Map listNotices(Map<String, Integer> pagingMap) throws Exception;
 		
 	 	//02. 공지사항 등록
+
 	 	public int addNotice(Map noticeMap) throws Exception;
+
 	 	
 	 	//03. 공지사항 상세보기
 	 	public Map viewNotice(int no_number) throws Exception;
