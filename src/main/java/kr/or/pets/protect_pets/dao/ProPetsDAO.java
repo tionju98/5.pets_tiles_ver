@@ -13,13 +13,18 @@ public interface ProPetsDAO {
 	
 	public int selectTotBoards() throws DataAccessException;
 
-	public int insertBoard(ProPetsVO proPetsVO) throws DataAccessException;
+	public int insertNewArticle(Map articleMap) throws DataAccessException;
+	
+	public void insertNewImage(Map articleMap) throws DataAccessException;
 
-	public int deleteBoard(String pro_noticeNum) throws DataAccessException;
+	public int deleteBoard(String pro_boardNum) throws DataAccessException;
 	
 	public List<ProPetsVO> searchBoard(ProPetsVO proPetsVO) throws DataAccessException;
 
 	public List<String> selectKeywordSearch(String keyword) throws DataAccessException;
 
 	public List<ProPetsVO> selectBoardsBySearchWord(String searchWord) throws DataAccessException;
+	
+	public ProPetsVO viewBoard(int pro_boardNum) throws DataAccessException;
+	
 }

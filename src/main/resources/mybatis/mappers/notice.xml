@@ -38,16 +38,48 @@
 	</select>
  	
  	<!-- 02. 공지사항 작성 -->
- 	<insert id="insertNotice" parameterType="noticeVO">
+ 	<insert id="insertNotice" parameterType="java.util.Map">
  		<![CDATA[
- 			INSERT INTO notice_page(no_number,no_title, no_content)
+ 			INSERT INTO notice_page(no_number,no_title, no_content, no_image)
  			VALUES((SELECT NVL(MAX(no_number)+1,1)
- 					FROM notice_page),#{no_title}, #{no_content})
+ 					FROM notice_page),#{no_title}, #{no_content},#{no_image})
  		]]>
  	</insert>
  	
+ 	<select id="selectNoticeNo" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(no_number), 0) + 1 FROM notice_page
+		]]>
+	</select>
+		
+	
+	<select id="noticeImageFileNo" resultType="int">
+		<![CDATA[
+			SELECT nvl(max(noticeImageNo), 0) from n_imagefile
+		]]>
+	</select>
+	
+	<insert id="insertImage" parameterType="java.util.Map">
+		<foreach collection="list" item="item" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+			INTO n_imagefile (noticeImageNo,noticeImageName, no_number, regDate)
+			VALUES (#{item.noticeImageNo}, #{item.noticeImageName}, #{item.no_number}, sysdate)
+		</foreach>
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ 	
  	<!-- 03. 공지사항 상세보기 조회 -->
- 	<select id="viewNotice" resultMap="noticeResult">
+ 	<select id="viewNotice" resultType="noticeVO" parameterType="int">
  		SELECT * FROM notice_page
  		WHERE no_number = #{no_number}
  	</select>

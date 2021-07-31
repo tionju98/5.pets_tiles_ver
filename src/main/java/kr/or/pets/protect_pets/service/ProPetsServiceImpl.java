@@ -37,17 +37,20 @@ public class ProPetsServiceImpl implements ProPetsService {
 	}
 
 	@Override
-	public int addBoard(ProPetsVO proPetsVO) throws DataAccessException {
-		return proPetsDAO.insertBoard(proPetsVO);
+	public int addNewArticle(Map articleMap) throws Exception {
+		int pro_boardNum = proPetsDAO.insertNewArticle(articleMap);
+		articleMap.put("pro_boardNum", pro_boardNum);
+		proPetsDAO.insertNewImage(articleMap);
+		return pro_boardNum;
 	}
 
 	@Override
-	public int removeBoard(String pro_noticeNum) throws DataAccessException {
+	public int removeBoard(String pro_noticeNum) throws Exception {
 		return proPetsDAO.deleteBoard(pro_noticeNum);
 	}
 
 	@Override
-	public List searchBoard(ProPetsVO proPetsVO) throws DataAccessException {
+	public List searchBoard(ProPetsVO proPetsVO) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -64,6 +67,13 @@ public class ProPetsServiceImpl implements ProPetsService {
 		List<ProPetsVO> boardsList = proPetsDAO.selectBoardsBySearchWord(searchWord);
 		
 		return boardsList;
+	}
+	
+	@Override
+	public ProPetsVO viewBoard(int pro_boardNum) throws Exception {
+		
+		return proPetsDAO.viewBoard(pro_boardNum);
+		
 	}
 
 }

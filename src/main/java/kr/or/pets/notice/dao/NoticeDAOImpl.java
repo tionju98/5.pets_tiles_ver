@@ -1,5 +1,6 @@
 package kr.or.pets.notice.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import kr.or.pets.notice.vo.NoticeImageVO;
 import kr.or.pets.notice.vo.NoticeVO;
 
 @Repository("noticeDAO")
@@ -33,10 +35,52 @@ public class NoticeDAOImpl implements NoticeDAO{
 	
 	//02-1. 공지사항 등록
 	@Override
-	public int insertNotice(NoticeVO noticeVO) throws DataAccessException {
-		int result = sqlSession.insert("mapper.notice.insertNotice",noticeVO);
-		return result;
+	public int insertNotice(Map noticeMap) throws DataAccessException {
+		//articleNo 값이 기존 max 값 + 1이 되어야 함.
+		int no_number = selectNoticeNo();
+		noticeMap.put("no_number", no_number);
+		
+		sqlSession.insert("mapper.notice.insertNotice", noticeMap);
+		return no_number;
+		
 	}
+	
+	
+	//02-2. 공지사항 이미지 등록
+	@Override
+	public void insertNoticeImage(Map noticeMap) throws DataAccessException {
+		List<NoticeImageVO> noticeImageFileList = (ArrayList)noticeMap.get("noticeImageFileList");
+		int no_number = (Integer)noticeMap.get("no_number");
+		
+		//이미지파일들은 별도의 테이블에 별도의 imageFileNo로 저장함.
+		int noticeImageFileNo = selectNoticeImageFileNo();				//기존 파일 No값을 먼저 구한다.
+		
+		if (noticeImageFileList != null && noticeImageFileList.size() != 0) {
+			//여러 이미지일경우 대비
+			for (NoticeImageVO noticeImageVO : noticeImageFileList) {
+				noticeImageVO.setNoticeImageNo(++noticeImageFileNo);
+				noticeImageVO.setNo_number(no_number);
+			}
+			//(다중) 파일 insert (별도의 테이블에다 함)
+			sqlSession.insert("mapper.notice.insertImage", noticeImageFileList);
+		}
+		
+		
+	}	
+	
+	
+	public int selectNoticeImageFileNo() throws DataAccessException {
+		return sqlSession.selectOne("mapper.notice.selectNoticeImageFileNo");
+	}
+
+	//  max 값 + 1
+	public int selectNoticeNo() throws DataAccessException {
+		return sqlSession.selectOne("mapper.notice.selectNoticeNo");
+	}
+	
+	
+	
+	
 	
 	//03. 공지사항 상세보기
 	@Override
@@ -54,12 +98,11 @@ public class NoticeDAOImpl implements NoticeDAO{
 	
 	//05. 공지사항 수정
 	@Override
-	public int updateNotice(NoticeVO noticeVO) throws DataAccessException {
-		int result = sqlSession.update("mapper.notice.updateNotice",noticeVO);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DAO");
-		return result;
+	public void updateNotice(Map noticeMap) throws DataAccessException {
+		sqlSession.update("mapper.notice.updateNotice",noticeMap);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DAO");	
 	}
-	
+
 	
 
 }

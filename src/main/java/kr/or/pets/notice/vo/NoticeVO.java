@@ -1,5 +1,8 @@
 package kr.or.pets.notice.vo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Date;
 
 import org.springframework.stereotype.Component;
@@ -90,12 +93,29 @@ public class NoticeVO {
 
 
 	public String getNo_image() {
+		try {
+			
+			if(no_image != null && no_image.length() != 0) {
+				no_image = URLDecoder.decode(no_image, "utf-8");
+			}
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
 		return no_image;
+	
 	}
 
 
 	public void setNo_image(String no_image) {
-		this.no_image = no_image;
+		try {
+			if(no_image != null && no_image.length() != 0) {
+				this.no_image = URLEncoder.encode(no_image, "utf-8");
+			}
+		} catch (UnsupportedEncodingException e ) {
+			e.printStackTrace();
+		}
 	}
 	
 	

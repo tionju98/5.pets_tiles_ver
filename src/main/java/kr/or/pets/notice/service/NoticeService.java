@@ -15,18 +15,18 @@ public interface NoticeService {
 	 	public Map listNotices(Map<String, Integer> pagingMap) throws Exception;
 		
 	 	//02. 공지사항 등록
-	 	public int addNotice(NoticeVO noticeVO) throws DataAccessException;
+	 	public int addNotice(Map noticeMap) throws Exception;
 	 	
 	 	//03. 공지사항 상세보기
-	 	public NoticeVO viewNotice(int no_number) throws DataAccessException;
+	 	public Map viewNotice(int no_number) throws Exception;
 	 	
 	 	//04. 공지사항 삭제
-	 	public int removeNotice(int no_number) throws DataAccessException;
+	 	public int removeNotice(int no_number) throws Exception;
 	 	
 	 	//05-1. 공지사항 수정폼 이동
 		
 		//05-2. 공지사항 수정
-	 	public int modNotice(NoticeVO noticeVO) throws DataAccessException;
+		public Map updateNotice(Map noticeMap) throws Exception;
 	 	
 	 	
 	 	/*

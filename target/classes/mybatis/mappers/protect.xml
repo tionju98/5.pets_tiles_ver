@@ -6,6 +6,7 @@
 <mapper namespace="mapper.protect">
 	<resultMap type="proPetsVO" id="protectResult">
 		<result property="level" column="lvl" />
+		<result property="pro_boardNum" column="pro_boardNum" />
 		<result property="pro_noticeNum" column="pro_noticeNum" />
 		<result property="pro_kind" column="pro_kind" />
 		<result property="pro_gender" column="pro_gender" />
@@ -21,11 +22,13 @@
 		<result property="pro_date" column="pro_date" />
 		<result property="user_id" column="user_id" />
 	</resultMap>
+
 	
 	<select id="selectAllBoards" resultMap="protectResult">
 		<![CDATA[
 			select * from (
 				select rownum as recNum
+								,pro_boardNum
 								,pro_noticeNum
 								,pro_kind
 								,pro_gender
@@ -42,7 +45,8 @@
 								,user_id
 						from (
 					select
-							 	 pro_noticeNum
+								 pro_boardNum
+							 	,pro_noticeNum
 								,pro_kind
 								,pro_gender
 								,pro_age
@@ -91,11 +95,30 @@
 		]]>
 	</select>
 	
-	<insert id="insertBoard" parameterType="proPetsVO">
+	<select id="selectNewArticleNo" resultType="int">
 		<![CDATA[
-			INSERT INTO pro_board (pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
-			VALUES (#{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, #{pro_img}, #{user_id})
+			SELECT NVL(MAX(pro_boardNum), 0) + 1 FROM pro_board
 		]]>
+	</select>
+	
+	<insert id="insertNewArticle" parameterType="java.util.Map">
+		<![CDATA[
+			INSERT INTO pro_board (pro_boardNum, pro_noticeNum, pro_kind, pro_gender, pro_age, pro_place, pro_findDate, pro_character, pro_neutering, pro_registNum, pro_state, pro_shelter, pro_img, user_id)
+			VALUES (#{pro_boardNum}, #{pro_noticeNum}, #{pro_kind}, #{pro_gender}, #{pro_age}, #{pro_place}, #{pro_findDate}, #{pro_character}, #{pro_neutering}, #{pro_registNum}, #{pro_state}, #{pro_shelter}, null, #{user_id})
+		]]>
+	</insert>
+	
+	<select id="selectNewImageFileNo" resultType="int">
+		<![CDATA[
+			SELECT nvl(max(imageFileNo), 0) from t_imageFile
+		]]>
+	</select>
+
+	<insert id="insertNewImage" parameterType="java.util.Map">
+		<foreach collection="list" item="item" open="INSERT ALL" separator=" " close="SELECT * FROM DUAL">
+			INTO t_imageFile (imageFileNo,imageFileName, pro_boardNum, regDate)
+			VALUES (#{item.imageFileNo}, #{item.imageFileName}, #{item.pro_boardNum}, sysdate)
+		</foreach>
 	</insert>
 	
 	<delete id="deleteBoard" parameterType="String">
@@ -105,6 +128,14 @@
 			pro_noticeNum = #{pro_noticeNum}
 		]]>
 	</delete>
+	
+	<select id="viewBoard" parameterType="Integer" resultType="proPetsVO">
+  	<![CDATA[
+  		select * from pro_board
+  		where 
+  		pro_boardNum=#{pro_boardNum}
+  	]]>
+  </select>
 	
 	
 

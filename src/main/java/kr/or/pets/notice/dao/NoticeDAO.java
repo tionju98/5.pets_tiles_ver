@@ -16,7 +16,10 @@ public interface NoticeDAO {
 	public int selectTotNotices() throws DataAccessException;
 	
 	//02-1. 공지사항 등록
-	public int insertNotice(NoticeVO noticeVO) throws DataAccessException;
+	public int insertNotice(Map noticeMap) throws DataAccessException;
+	
+	//02-2 공지사항 이미지 등록
+	public void insertNoticeImage(Map noticeMap) throws DataAccessException;
 	
 	//03. 공지사항 상세보기
 	public NoticeVO viewNotice(int no_number) throws DataAccessException;
@@ -24,11 +27,8 @@ public interface NoticeDAO {
 	//04. 공지사항 삭제
 	public int removeNotice(int no_number) throws DataAccessException;
 	
-	//05-1. 공지사항 수정폼 이동
-	public int updateNotice(NoticeVO noticeVO) throws DataAccessException;
-	
 	//05-2. 공지사항 수정
-	 
+	public void updateNotice(Map noticeMap) throws DataAccessException;
 
 	
 	/* public void updateNotice(Map noticeMap) throws DataAccessException; */

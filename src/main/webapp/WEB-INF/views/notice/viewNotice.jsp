@@ -8,6 +8,7 @@
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="notice" value="${noticleMap.notice }" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
     
 <!DOCTYPE html>
 <html>
@@ -85,7 +86,8 @@
 			<div class="">${notice.no_content}</div>
 			
 		
-			<img src="#">
+			<input type="hidden" name="originalFileName" value="${protect.imageFileName }" />
+			<img alt="사진" src="C:\\workspace-pets\\notice_image\\"+${protect.pro_boardNum }+"\\"+"${protect.imageFileName }" id="preview" width="300"><br/>
 		
 			<div style="text-align: center;">
 				<a href="${contextPath}/notice/updateNotice.do?no_number=${notice.no_number}">

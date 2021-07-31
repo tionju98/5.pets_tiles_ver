@@ -9,9 +9,19 @@
 		<put-attribute name="body" value="/WEB-INF/views/protect/listBoards.jsp" />		<!-- value: 레이아웃에서 본문을 표시할 JSP 지정함. -->
 	</definition>
 	
+	<definition name="/protect/boardForm" extends="baseLayout">
+		<put-attribute name="title" value="글쓰기" />
+		<put-attribute name="body" value="/WEB-INF/views/protect/boardForm.jsp" />
+	</definition>	
+	
 	<definition name="/protect/searchBoards" extends="baseLayout">
 		<put-attribute name="title" value="보호동물 검색결과" />
 		<put-attribute name="body" value="/WEB-INF/views/protect/searchBoards.jsp" />
+	</definition>
+	
+	<definition name="/protect/viewBoard" extends="baseLayout">
+		<put-attribute name="title" value="보호동물 상세페이지" />
+		<put-attribute name="body" value="/WEB-INF/views/protect/viewBoard.jsp" />
 	</definition>
 	
 </tiles-definitions>       

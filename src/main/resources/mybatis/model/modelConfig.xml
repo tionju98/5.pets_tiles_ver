@@ -6,8 +6,10 @@
   <configuration>
   	<typeAliases>
   		<typeAlias type="kr.or.pets.notice.vo.NoticeVO" alias="noticeVO"/>
+  		<typeAlias type="kr.or.pets.notice.vo.NoticeImageVO" alias="noticeImageVO"/>
   		<typeAlias type="kr.or.pets.member.vo.MemberVO" alias="memberVO"/>
   		<typeAlias type="kr.or.pets.board.vo.BoardVO" alias="boardVO"/>
   		<typeAlias type="kr.or.pets.protect_pets.vo.ProPetsVO" alias="proPetsVO"/>
+  		<typeAlias type="kr.or.pets.protect_pets.vo.ImageVO" alias="imageVO"/>
   	</typeAliases>
   </configuration>
