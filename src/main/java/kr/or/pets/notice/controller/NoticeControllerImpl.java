@@ -112,8 +112,8 @@ public class NoticeControllerImpl implements NoticeController {
 		//로그인 시 세션에 저장된 회원 정보에서 글쓴이 아이디 얻어와 Map에 역시 저장함.
 		HttpSession session = multipartRequest.getSession();
 		NoticeVO noticeVO = (NoticeVO)session.getAttribute("notice");
-		//String no_writer = noticeVO.getNo_writer();				//(나중에 주석해제필요)
-		//noticeMap.put("no_writer", no_writer);					//(나중에 주석해제필요)
+		//String id = memberVO.getId();				//(나중에 주석해제필요)
+		//articleMap.put("id", id);					//(나중에 주석해제필요)
 		
 		//이미지 부분 업로드부분 추가
 		List<String> fileList = upload(multipartRequest);
@@ -303,45 +303,6 @@ public class NoticeControllerImpl implements NoticeController {
 		
 		return mav;
 	}
-
-	
-	
-
-
-
-	
-	
-	/*
-	 * //02-2. 공지사항 등록 처리
-	 * 
-	 * @Override
-	 * 
-	 * @RequestMapping(value = "notice/addNotice.do", method = RequestMethod.POST)
-	 * public ModelAndView addNotice(HttpServletRequest request, HttpServletResponse
-	 * response) throws Exception { request.setCharacterEncoding("utf-8");
-	 * response.setContentType("html/text;charset=utf-8");
-	 * 
-	 * NoticeVO noticeVO = new NoticeVO();
-	 * 
-	 * int result = noticeService.addNotice(noticeVO);
-	 * 
-	 * ModelAndView mav = new ModelAndView("redirect:/notice/listNotices.do");
-	 * 
-	 * return mav; }
-	 */
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	
 
 
