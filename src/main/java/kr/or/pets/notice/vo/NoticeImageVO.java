@@ -35,6 +35,13 @@ public class NoticeImageVO {
 	
 	
 	public void setNoticeImageNo(int noticeImageNo) {
+		this.noticeImageNo = noticeImageNo;
+	}
+	
+	public String getNoticeImageFileName() {
+		return noticeImageFileName;
+	}
+	public void setNoticeImageFileName(String noticeImageFileName) {
 		try {
 			if(noticeImageFileName != null && noticeImageFileName.length() != 0) {
 				this.noticeImageFileName = URLEncoder.encode(noticeImageFileName, "utf-8");		//파일이름에 특수문자가 있을 경우 인코딩합니다.
@@ -42,13 +49,6 @@ public class NoticeImageVO {
 		} catch (UnsupportedEncodingException e) {
 			e.getMessage();
 		}
-	}
-	
-	public String getNoticeImageFileName() {
-		return noticeImageFileName;
-	}
-	public void setNoticeImageFileName(String noticeImageFileName) {
-		this.noticeImageFileName = noticeImageFileName;
 	}
 	public Date getRegDate() {
 		return regDate;

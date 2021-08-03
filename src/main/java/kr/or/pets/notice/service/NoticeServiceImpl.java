@@ -45,7 +45,7 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	//02. 공지사항 등록
 	@Override
-	public int addNotice(Map noticeMap) throws DataAccessException {
+	public int addNotice(Map noticeMap) throws Exception {
 		int noNumber = noticeDAO.insertNotice(noticeMap);
 		noticeMap.put("noNumber", noNumber);
 		noticeDAO.insertNoticeImage(noticeMap);
@@ -54,7 +54,7 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	//03. 공지사항 상세보기
 	@Override
-	public Map viewNotice(int noNumber) throws DataAccessException {
+	public Map viewNotice(int noNumber) throws Exception {
 		Map noticeMap = new HashMap();
 		NoticeVO noticeVO = noticeDAO.viewNotice(noNumber);
 		//이미지 파일 보기추가
@@ -71,7 +71,7 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	//04. 공지사항 삭제
 	@Override
-	public int removeNotice(int noNumber) throws DataAccessException {
+	public int removeNotice(int noNumber) throws Exception {
 		return noticeDAO.removeNotice(noNumber);
 	}
 
