@@ -43,7 +43,7 @@ import net.sf.json.JSONObject;
 public class ProPetsControllerImpl extends MultiActionController implements ProPetsController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ProPetsController.class);
-	private static final String ARTICLE_IMAGE_FILE = "C:\\workspace-pets\\article_image";
+	private static final String ARTICLE_IMAGE_FILE = "C:\\workspace-sts\\article_image";
 	
 	@Autowired
 	private ProPetsService proPetsService;

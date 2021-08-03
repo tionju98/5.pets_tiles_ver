@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class FileDownloadController {
-	private static String ARTICLE_IMAGE_REPO = "C:\\workspace-pets\\article_image";
-	private static String NOTICE_IMAGE_REPO = "C:\\workspace-pets\\notice_image";
+	private static String ARTICLE_IMAGE_REPO = "C:\\workspace-sts\\article_image";
+	private static String NOTICE_IMAGE_REPO = "C:\\workspace-sts\\notice_image";
 	
 	@RequestMapping("/download.do")
 	protected void download(@RequestParam("imageFileName") String imageFileName,

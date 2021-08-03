@@ -35,7 +35,7 @@ import kr.or.pets.notice.vo.NoticeVO;
 @Controller("noticeController")
 public class NoticeControllerImpl implements NoticeController {
 	private static final Logger logger = LoggerFactory.getLogger(NoticeControllerImpl.class);
-	private static final String NOTICE_IMAGE = "C:\\workspace-pets\\notice_image";
+	private static final String NOTICE_IMAGE = "C:\\workspace-sts\\notice_image";
 	
 	@Autowired
 	private NoticeService noticeService;
@@ -126,10 +126,10 @@ public class NoticeControllerImpl implements NoticeController {
 				noticeImageVO.setNoticeImageFileName(fileName);
 						
 				noticeImageFileList.add(noticeImageVO);
-				}
+			}
 					
 			noticeMap.put("noticeImageFileList", noticeImageFileList);
-			}
+		}
 		
 		
 		// 새글 등록시 위 이미지외에 나머지 입력사항 처리하기

@@ -73,7 +73,7 @@
 	
 	<select id="selectNoticeImageFileNo" resultType="int">
 		<![CDATA[
-			SELECT nvl(max(noticeImageNo), 0) + 1 from noImageFile
+			SELECT nvl(max(noticeImageNo), 0) from noImageFile
 		]]>
 	</select>
 	

@@ -66,7 +66,7 @@ public class NoticeDAOImpl implements NoticeDAO{
 		if (noticeImageFileList != null && noticeImageFileList.size() != 0) {
 			//여러 이미지일경우 대비
 			for (NoticeImageVO noticeImageVO : noticeImageFileList) {
-				noticeImageVO.setNoticeImageNo(noticeImageFileNo);
+				noticeImageVO.setNoticeImageNo(++noticeImageFileNo);
 				noticeImageVO.setNoNumber(noNumber);
 			}
 			//(다중) 파일 insert (별도의 테이블에다 함)
