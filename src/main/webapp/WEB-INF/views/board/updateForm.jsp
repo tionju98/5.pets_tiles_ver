@@ -41,13 +41,13 @@
 		<table align="center">
 			<tr>
 				<td width="200"><p align="right">제목</td>
-				<td width="400"><input type="text" name="qa_title" /> </td>
+				<td width="400"><input type="text" name="qaTitle" /> </td>
 			</tr>
 			
 			<tr>
 				<td width="200"><p align="right">카테고리</td>
 				<!-- <td width="400"><input type="text" name="qa_category" /> </td> -->
-				<td><select name="qa_category">
+				<td><select name="qaCategory">
 					<option value="동물" >동물</option>
 					<option value="개인" >개인</option>
 					<option value="단체" >단체</option>
@@ -57,7 +57,7 @@
 			
 			<tr>
 				<td width="200"><p align="right">내용</td>
-				<td width="400"><textarea rows="20" cols="60" name="qa_content"></textarea> </td>
+				<td width="400"><textarea rows="20" cols="60" name="qaContent"></textarea> </td>
 			</tr>
 			
 			<tr>

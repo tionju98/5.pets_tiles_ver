@@ -9,7 +9,8 @@
   		<typeAlias type="kr.or.pets.notice.vo.NoticeImageVO" alias="noticeImageVO"/>
   		<typeAlias type="kr.or.pets.member.vo.MemberVO" alias="memberVO"/>
   		<typeAlias type="kr.or.pets.board.vo.BoardVO" alias="boardVO"/>
-  		<typeAlias type="kr.or.pets.protect_pets.vo.ProPetsVO" alias="proPetsVO"/>
-  		<typeAlias type="kr.or.pets.protect_pets.vo.ImageVO" alias="imageVO"/>
+  		<typeAlias type="kr.or.pets.protectPets.vo.ProPetsVO" alias="proPetsVO"/>
+  		<typeAlias type="kr.or.pets.protectPets.vo.ImageVO" alias="imageVO"/>
+  		<typeAlias type="kr.or.pets.missPets.vo.MissVO" alias="missVO"/>
   	</typeAliases>
   </configuration>

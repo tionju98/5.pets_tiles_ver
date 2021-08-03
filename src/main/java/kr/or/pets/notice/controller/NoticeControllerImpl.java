@@ -142,7 +142,7 @@ public class NoticeControllerImpl implements NoticeController {
 		
 		 try {
 		    	
-		     int no_number = noticeService.addNotice(noticeMap);
+		     int noNumber = noticeService.addNotice(noticeMap);
 		     
 		     if (noticeImageFileList != null && noticeImageFileList.size() != 0) {
 		    	for (NoticeImageVO  noticeImageVO : noticeImageFileList) {
@@ -150,7 +150,7 @@ public class NoticeControllerImpl implements NoticeController {
 		    		noticeImageFileName = noticeImageVO.getNoticeImageFileName();
 		    		
 		    		File srcFile = new File(NOTICE_IMAGE  +"\\"+  "temp"  +"\\"+  noticeImageFileName);
-		    		File destFile = new File(NOTICE_IMAGE  +"\\"+ no_number );
+		    		File destFile = new File(NOTICE_IMAGE  +"\\"+ noNumber );
 		    		
 		    		FileUtils.moveFileToDirectory(srcFile, destFile, true);
 		    	}
@@ -161,8 +161,8 @@ public class NoticeControllerImpl implements NoticeController {
 			  //message += " location.href='        "+request.getContextPath()+"     /board/viewBoard.do?qa_No=qa_No                    ';    ";
 			  //message += " location.href='        "+request.getContextPath()+"     /board/viewBoard.do?qa_No="
 			  //		+ qa_No +   "';";
-			  message += " location.href='"+multipartRequest.getContextPath()+"/notice/viewNotice.do?no_number="
-				  		+ noticeMap.get("no_number") +   "';";			  
+			  message += " location.href='"+multipartRequest.getContextPath()+"/notice/viewNotice.do?noNumber="
+				  		+ noticeMap.get("noNumber") +   "';";			  
 			  message += " </script>";
 			  
 			  responseEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);	  
@@ -198,7 +198,7 @@ public class NoticeControllerImpl implements NoticeController {
 	}
 
 
-	private List<String> upload(MultipartHttpServletRequest multipartRequest) throws Exception {
+	public List<String> upload(MultipartHttpServletRequest multipartRequest) throws Exception {
 		List<String> fileList = new ArrayList<>();
 		
 		Iterator<String> fileNames = multipartRequest.getFileNames();				// 다중 이미지도 고려
@@ -237,19 +237,18 @@ public class NoticeControllerImpl implements NoticeController {
 
 	//03. 공지사항 상세화면
 	@RequestMapping(value = "/notice/viewNotice.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView viewNotice(@RequestParam("no_number") int no_number, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView viewNotice(@RequestParam("noNumber") int noNumber, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		
 		String viewName = (String)request.getAttribute("viewName");
-		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$no_number : "+no_number);
 		
-		Map noticleMap = noticeService.viewNotice(no_number);
-		
+		Map noticeMap = noticeService.viewNotice(noNumber);
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$noNumber : "+noNumber);
 		
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName(viewName);
-		mav.addObject("noticleMap", noticleMap);
+		mav.addObject("noticeMap", noticeMap);
 		
 		return mav;
 	}
@@ -257,18 +256,18 @@ public class NoticeControllerImpl implements NoticeController {
 	
 	// 05. 공지사항 수정폼 이동  -- 상세화면과 내용 중복됨
 	@RequestMapping(value = "/notice/updateNotice.do", method = {RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView updateNotice(@RequestParam("no_number") int no_number,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView updateNotice(@RequestParam("noNumber") int noNumber,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("html/text;charset=utf-8");
 		
 		String viewName = (String) request.getAttribute("viewName");
 		
-		Map noticleMap = noticeService.viewNotice(no_number);
+		Map noticeMap = noticeService.viewNotice(noNumber);
 		
 		logger.info("viewName"+viewName);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("noticleMap", noticleMap);
+		mav.addObject("noticeMap", noticeMap);
 		
 		mav.setViewName(viewName);
 		
@@ -282,14 +281,14 @@ public class NoticeControllerImpl implements NoticeController {
 	public ModelAndView updateNotice(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		
-		int no_number = Integer.parseInt(request.getParameter("no_number"));
-		String no_title = request.getParameter("no_title");
-		String no_content = request.getParameter("no_content");
+		int noNumber = Integer.parseInt(request.getParameter("noNumber"));
+		String noTitle = request.getParameter("noTitle");
+		String noContent = request.getParameter("noContent");
 		
 		Map noticeMap = new HashMap();
-		noticeMap.put("no_number", no_number);
-		noticeMap.put("no_title", no_title);
-		noticeMap.put("no_content", no_content);
+		noticeMap.put("noNumber", noNumber);
+		noticeMap.put("noTitle", noTitle);
+		noticeMap.put("noContent", noContent);
 		
 		Map updateMap = noticeService.updateNotice(noticeMap);
 		
@@ -308,10 +307,10 @@ public class NoticeControllerImpl implements NoticeController {
 
 	//04. 공지사항 삭제
 	@RequestMapping(value = "/notice/removeNotice.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView removeNotice(@RequestParam("no_number") int no_number, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView removeNotice(@RequestParam("noNumber") int noNumber, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		
-		noticeService.removeNotice(no_number);
+		noticeService.removeNotice(noNumber);
 		ModelAndView mav = new ModelAndView("redirect:/notice/listNotices.do");
 		
 		return mav;

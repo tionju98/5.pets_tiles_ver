@@ -39,8 +39,8 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public int removeMember(String user_ID) throws DataAccessException {
-		return memberDAO.deleteMember(user_ID);
+	public int removeMember(String userID) throws DataAccessException {
+		return memberDAO.deleteMember(userID);
 	}
 
 
@@ -54,6 +54,22 @@ public class MemberServiceImpl implements MemberService {
 	public List listShelter() throws DataAccessException {
 		List membersList = memberDAO.selectAllShelterList();
 		return membersList;
+	}
+	
+	@Override
+	public List<MemberVO> searchBoards(String searchWord) throws Exception {
+		List<MemberVO> boardsList = memberDAO.selectBoardsBySearchWord(searchWord);
+		
+		return boardsList;
+	}
+
+
+
+	@Override
+	public List<String> keywordSearch(String keyword) throws Exception {
+		List<String> list = memberDAO.selectKeywordSearch(keyword);
+		
+		return list;
 	}
 
 }

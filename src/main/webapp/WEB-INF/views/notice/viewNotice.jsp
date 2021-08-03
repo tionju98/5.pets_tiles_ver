@@ -8,15 +8,15 @@
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="notice" value="${noticleMap.notice }" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
-    
+<c:set var="notice" value="${noticeMap.notice}" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
+<c:set var="noticeImageFileList" value="${noticeMap.noticeImageFileList}" />
 <!DOCTYPE html>
 <html>
 	<head>
 	<meta charset="UTF-8">
 	<title>상세페이지 조회</title>
-	  <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/kfonts2.css" rel="stylesheet">
+	  <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/kfonts2.css" rel="stylesheet">
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript">
 		function readURL(input) {
@@ -37,7 +37,10 @@
 			$(".tr_updateEnable").css("visibility","visible");
 		}
 		
-	
+	    function backToList(obj) {
+	        obj.action = "${contextPath}/notice/listNotices.do"
+	        obj.submit();
+	     }
 	</script>
 	<style type="text/css">
 		.header{
@@ -61,7 +64,7 @@
 </head>
 <body>
 
-<form action="${contextPath}/notice/viewNotice.do" name="view"method="get">
+<form action="${contextPath}" name="frmBoard" enctype="multipart/form-data" name="view" method="post">
 	
 	<div class="jumbotron" style="margin-top: 20px;">
 		<h3>공지사항</h3>
@@ -70,33 +73,40 @@
 	<div class="container" style="margin-bottom: 20px">
 		<div class="header" style="margin-bottom: 20px; margin-top: 20px;">
 			<div class="headline">
-				<h4>${notice.no_title }</h4>
+				<h4>${notice.noTitle }</h4>
 			</div>
 			
 			<div class="headline_content">
-				<span>작성일 : </span> ${notice.no_date }&nbsp;&nbsp;&nbsp;&nbsp;
-				<span>작성자 : </span> ${notice.no_writer }&nbsp;&nbsp;&nbsp;&nbsp;
-				<span>조회수 : </span> ${notice.no_hits }
+				<span>작성일 : </span> ${notice.noDate }&nbsp;&nbsp;&nbsp;&nbsp;
+				<span>작성자 : </span> ${notice.noWriter }&nbsp;&nbsp;&nbsp;&nbsp;
+				<span>조회수 : </span> ${notice.noHits }
 			</div>
 		</div>
 		
 		<div class="content">
 			
 			
-			<div class="">${notice.no_content}</div>
+			<div class="">${notice.noContent}</div>
 			
-		
-			<input type="hidden" name="originalFileName" value="${protect.imageFileName }" />
-			<img alt="사진" src="C:\\workspace-pets\\notice_image\\"+${protect.pro_boardNum }+"\\"+"${protect.imageFileName }" id="preview" width="300"><br/>
-		
+		<c:choose>
+			<c:when test="${not empty noticeImageFileList && noticeImageFileList != 'null' }">
+				<c:forEach var="item" items="${noticeImageFileList}" varStatus="status">
+						<div style="padding: 10px;">
+						<input type="hidden" name="originalFileName" value="${item.noticeImageFileName }" />
+						<input type="hidden" name="noticeImageNo" value="${item.noticeImageNo}" />
+						<img alt="사진" src="${contextPath}/noticeDownload.do?noNumber=${notice.noNumber}&noticeImageFileName=${item.noticeImageFileName}" id="preview${status.index }" width="300"><br/>
+						</div>
+				</c:forEach>
+			</c:when>
+		</c:choose>
 			<div style="text-align: center;">
-				<a href="${contextPath}/notice/updateNotice.do?no_number=${notice.no_number}">
+				<a href="${contextPath}/notice/updateNotice.do?noNumber=${notice.noNumber}">
 					<input type="button" value="수정" class="btn">
 				</a>	
-				<a href="${contextPath}/notice/removeNotice.do?no_number=${notice.no_number}">
+				<a href="${contextPath}/notice/removeNotice.do?noNumber=${notice.noNumber}">
 					<input type="button" value="삭제" class="btn">
 				</a>
-        	  <input type=button value="목록" OnClick="javascript:history.back(-1)" class="btn">
+        	  <input type=button value="목록" onclick="backToList(this.form)"  class="btn">
 			</div>
 		</div>
 	</div>

@@ -25,7 +25,7 @@ public interface NoticeController {
 	 public ResponseEntity addNotice(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception;
 	 
 	 //03. 공지사항 상세보기
-	 public ModelAndView viewNotice(@RequestParam("no_number") int no_number, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	 public ModelAndView viewNotice(@RequestParam("noNumber") int noNumber, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	 
 	 //04. 공지사항 삭제
 	 public ModelAndView removeNotice(HttpServletRequest request, HttpServletResponse response) throws Exception;

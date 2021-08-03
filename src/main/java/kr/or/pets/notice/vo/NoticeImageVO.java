@@ -4,12 +4,23 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Date;
 
+import org.springframework.stereotype.Component;
+
+/*
+noticeImageNo number(10) PRIMARY KEY
+, noticeImageFileName varchar2(50)
+, regDate DATE DEFAULT sysdate
+, noNumber number(10)
+, CONSTRAINT FKNoNumber FOREIGN key(noNumber)
+REFERENCES noticePage(noNumber) on delete CASCADE
+*/
+@Component("noticeImageVO")
 public class NoticeImageVO {
 
 	private int noticeImageNo;
 	private String noticeImageFileName;
 	private Date regDate;
-	private int no_number;
+	private int noNumber;
 	
 	
 	
@@ -45,11 +56,11 @@ public class NoticeImageVO {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
-	public int getNo_number() {
-		return no_number;
+	public int getNoNumber() {
+		return noNumber;
 	}
-	public void setNo_number(int no_number) {
-		this.no_number = no_number;
+	public void setNoNumber(int noNumber) {
+		this.noNumber = noNumber;
 	}
 	
 	

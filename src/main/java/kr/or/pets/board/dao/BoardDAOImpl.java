@@ -1,6 +1,7 @@
 package kr.or.pets.board.dao;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,26 +38,46 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int deleteBoard(int qa_No) throws DataAccessException {
-		int result = sqlSession.delete("mapper.board.deleteBoard", qa_No);
+	public int deleteBoard(int qaNo) throws DataAccessException {
+		int result = sqlSession.delete("mapper.board.deleteBoard", qaNo);
 		return result;
 	}
 
 	@Override
-	public int insertBoard(BoardVO boardVO) throws DataAccessException {
-		int result = sqlSession.insert("mapper.board.insertBoard", boardVO);
-		return result;
+	public int insertBoard(Map boardMap) throws DataAccessException {
+		int qaNo = selectNewQaNo();
+		boardMap.put("qaNo", qaNo);
+		sqlSession.insert("mapper.board.insertBoard", boardMap);
+		return qaNo;
+	}
+
+	public int selectNewQaNo() throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.selectNewQa_No");
 	}
 
 	@Override
-	public BoardVO viewBoard(int qa_No) throws DataAccessException {
+	public BoardVO viewBoard(int qaNo) throws DataAccessException {
 	
-		return sqlSession.selectOne("mapper.board.viewBoard", qa_No);
+		return sqlSession.selectOne("mapper.board.viewBoard", qaNo);
 		
 	}
 	@Override
 	public void updateBoard(Map boardMap) throws DataAccessException{
 		System.out.println("==================updateBoard=======================");
 		sqlSession.update("mapper.board.updateBoard", boardMap);
+	}
+
+	@Override
+	public List<String> selectKeywordSearch(String keyword) throws DataAccessException {
+		List<String> list = sqlSession.selectList("mapper.board.selectKeywordSearch", keyword);
+		
+		return list;
+	}
+
+	@Override
+	public List<BoardVO> selectBoardsBySearchWord(String searchWord) throws DataAccessException {
+		ArrayList<BoardVO> list = (ArrayList)sqlSession.selectList("mapper.board.selectBoardsBySearchWord", searchWord);
+		
+		return list;
 	}
 	}

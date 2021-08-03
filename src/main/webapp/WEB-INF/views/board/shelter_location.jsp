@@ -15,9 +15,74 @@
 	<link href="${pageContext.request.contextPath}/resources/css/kfonts2.css" rel="stylesheet" >
 	<title>보호소 위치 </title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+	var loopSearch = true;
+	
+	function keywordSearch() {
+		if(loopSearch == false)
+			return;
+		
+		var value = document.shSearch.searchWord.value;
+		
+		$.ajax({
+			type: 'get',
+			async: true,
+			url: "${contextPath}/member/keywordSearch.do",
+			data: {keyword:value},						/* 매개변수 이름 keyword로 JSON 데이터를 ajax로 전송함  */
+			success: function(data, textStatus) {
+				var jsonInfo = JSON.parse(data);
+				displayResult(jsonInfo);
+			},
+			error: function(data, textStatus) {
+				alert("에러가 발생했습니다." + data);
+			},
+			complete: function(data, textStatus) {
+				
+			}
+		});
+	}
+	
+	function displayResult(jsonInfo) {
+	 	var count = jsonInfo.keyword.length;
+	 	if(count>0) {
+	 		var html = '';
+	 		for(var i in jsonInfo.keyword) {
+	 			html += "<a href=\"javascript:select('"+jsonInfo.keyword[i]+"')\">"+jsonInfo.keyword[i]+"</a><br/>";
+	 		}
+		 	var listView = document.getElementById("autocompleteList");
+		 	listView.innerHTML = html;
+		 	show('autocomplete');		 		
+	 	}
+	 	else {
+	 		hide('autocomplete');
+	 	}	 	
+	}
+		
+	function select(selectedKeyword) {
+		document.shSearch.searchWord.value=selectedKeyword;
+		loopSearch = false;
+		hide('autocomplete');
+	}
+	
+	function show(elementId) {
+		var element = document.getElementById(elementId);
+		if(element) {
+			element.style.display = 'block';
+		}
+	}
+	
+	function hide(elementId) {
+		var element = document.getElementById(elementId);
+		if(element) {
+			element.style.display = 'none';
+		}			
+	}
+	</script>
 	<style type="text/css">
 		.table{
-		    width: 100%;
+		    width: 60%;
+		    margin-left: auto;
+		    margin-right: auto;
 		    border-collapse: collapse;
 		    line-height: 24px;
 		}
@@ -40,10 +105,12 @@
 
 	<table class="table table-hover">
 	<tr style="align: right;">
+	<td><p>지역 입력 :</p></td>
     			<td colspan="5" style="display:inline-block; border:white;">
-    			<form >
-    				<select name="sido1" id="sido1"></select>
-					<select name="gugun1" id="gugun1" onchange="handleOnChange(this)"></select>
+    			
+    			<form action="${contextPath}/member/searchBoards.do" name="shSearch">
+    				<input name="searchWord" class="" type="text" onkeyup="keywordSearch()" />
+					<input name="search" class="btn btn-success" type="submit" value="검색" />
 					</form>
     			</td>
     		</tr>
@@ -69,9 +136,9 @@
 		<c:when test="${!empty membersList }">
 		<c:forEach var="member" items="${membersList }" >
 			<tr align="center">
-				<td>${member.user_NAME }</td>
-				<td>${member.user_Address }</td>
-			 <td>${member.user_PhoneNumber }</td>
+				<td>${member.userNAME }</td>
+				<td>${member.userAddress }</td>
+			 <td>${member.userPhoneNumber }</td>
 			</tr>
 		</c:forEach>
 		</c:when>
@@ -79,6 +146,6 @@
 		</c:choose>
 	</table>
 	<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/shelterLocation.js"></script>
+
 </body>
 </html>

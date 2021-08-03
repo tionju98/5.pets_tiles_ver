@@ -7,26 +7,28 @@ import org.springframework.stereotype.Component;
 @Component("boardVO")
 public class BoardVO {
 	private int level;
-	private int qa_No;
-	private int qa_parentNo;
-	private String qa_title;
-	private String qa_category;
-	private String qa_content;
-	private Date qa_date;
-	private String user_ID;
+	private int qaNo;
+	private int qaParentNo;
+	private String qaTitle;
+	private String qaCategory;
+	private String qaContent;
+	private Date qaDate;
+	private String userID;
+	private String qaSecret;
 	
 	public BoardVO() {
 	}
 
-	public BoardVO(int level ,int qa_No, String qa_title, String qa_category, String qa_content, Date qa_date, String user_ID) {
+	public BoardVO(int level ,int qaNo, String qaTitle, String qaCategory, String qaContent, Date qaDate, String userID, String qaSecret) {
 		super();
 		this.level = level;
-		this.qa_No = qa_No;
-		this.qa_title = qa_title;
-		this.qa_category = qa_category;
-		this.qa_content = qa_content;
-		this.qa_date = qa_date;
-		this.user_ID = user_ID;
+		this.qaNo = qaNo;
+		this.qaTitle = qaTitle;
+		this.qaCategory = qaCategory;
+		this.qaContent = qaContent;
+		this.qaDate = qaDate;
+		this.userID = userID;
+		this.qaSecret = qaSecret;
 	}
 
 	public int getLevel() {
@@ -36,66 +38,69 @@ public class BoardVO {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
-	public String getQa_category() {
-		return qa_category;
+
+	public int getQaNo() {
+		return qaNo;
 	}
 
-	public void setQa_category(String qa_category) {
-		this.qa_category = qa_category;
+	public void setQaNo(int qaNo) {
+		this.qaNo = qaNo;
 	}
 
-	public int getQa_No() {
-		return qa_No;
+	public int getQaParentNo() {
+		return qaParentNo;
 	}
 
-	public void setQa_No(int qa_No) {
-		this.qa_No = qa_No;
+	public void setQaParentNo(int qaParentNo) {
+		this.qaParentNo = qaParentNo;
 	}
 
-	public int getQa_parentNo() {
-		return qa_parentNo;
+	public String getQaTitle() {
+		return qaTitle;
 	}
 
-	public void setQa_parentNo(int qa_parentNo) {
-		this.qa_parentNo = qa_parentNo;
+	public void setQaTitle(String qaTitle) {
+		this.qaTitle = qaTitle;
 	}
 
-	public String getQa_title() {
-		return qa_title;
+	public String getQaCategory() {
+		return qaCategory;
 	}
 
-	public void setQa_title(String qa_title) {
-		this.qa_title = qa_title;
+	public void setQaCategory(String qaCategory) {
+		this.qaCategory = qaCategory;
 	}
 
-	public Date getQa_date() {
-		return qa_date;
+	public String getQaContent() {
+		return qaContent;
 	}
 
-	public void setQa_date(Date qa_date) {
-		this.qa_date = qa_date;
+	public void setQaContent(String qaContent) {
+		this.qaContent = qaContent;
 	}
 
-	public String getQa_content() {
-		return qa_content;
+	public Date getQaDate() {
+		return qaDate;
 	}
 
-	public void setQa_content(String qa_content) {
-		this.qa_content = qa_content;
+	public void setQaDate(Date qaDate) {
+		this.qaDate = qaDate;
 	}
 
-	public String getUser_ID() {
-		return user_ID;
+	public String getUserID() {
+		return userID;
 	}
 
-	public void setUser_ID(String user_ID) {
-		this.user_ID = user_ID;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
+	public String getQaSecret() {
+		return qaSecret;
+	}
 
-	
-	
-	
+	public void setQaSecret(String qaSecret) {
+		this.qaSecret = qaSecret;
+	}
 	
 }

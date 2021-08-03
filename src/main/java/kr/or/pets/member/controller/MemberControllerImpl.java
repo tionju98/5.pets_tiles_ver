@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.or.pets.member.service.MemberService;
 import kr.or.pets.member.vo.MemberVO;
+import net.sf.json.JSONObject;
 
 @Controller("memberController")			/* @Controller이용해서 MemberControllerImpl 클래스에 대해 id가 memberController인 빈 자동 생성함. */
 @EnableAspectJAutoProxy
@@ -85,11 +86,11 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 	}
 
 	@RequestMapping(value = "/member/removeMember.do", method = RequestMethod.GET)		/* 전송된 id를 변수 id에 설정함. */
-	public ModelAndView removeMember(@RequestParam("user_ID") String user_ID, 
+	public ModelAndView removeMember(@RequestParam("userID") String userID, 
 								HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		
-		memberService.removeMember(user_ID);
+		memberService.removeMember(userID);
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		
 		return mav;
@@ -152,7 +153,7 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 			}
 			//②else
 			else {
-				mav.setViewName("redirect:/member/listMembers.do");
+				mav.setViewName("redirect:/main.do");
 			}
 			
 		}
@@ -174,8 +175,47 @@ public class MemberControllerImpl extends MultiActionController implements Membe
 		session.removeAttribute("isLogOn");
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/member/listMembers.do");
+		mav.setViewName("redirect:/main.do");
+		
+		return mav;
+	}
+	
+	@Override
+	@RequestMapping(value = "/member/keywordSearch.do", method= RequestMethod.GET, produces = "application/text; charset=utf8")
+	public String KeywordSearch(String keyword, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		
+		//logger.info("===============================================================");
+		
+		if(keyword == null || keyword.equals(""))
+			return null;
+		
+		keyword = keyword.toUpperCase();
+		
+	
+		List<String> keywordList = memberService.keywordSearch(keyword);
+		
+		//최종 완성될  JSONObject 선언
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("keyword", keywordList);
+		
+		String jsonInfo = jsonObject.toString();
+		
+		return jsonInfo;
+	}
+	
+	@Override
+	@RequestMapping(value = "/member/searchBoards.do", method = RequestMethod.GET)
+	public ModelAndView searchBoards(String searchWord, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		String viewName = (String)request.getAttribute("viewName");
+		List<MemberVO> membersList = memberService.searchBoards(searchWord);
+		
+		ModelAndView mav = new ModelAndView(viewName);
+		mav.addObject("membersList", membersList);
 		
 		return mav;
 	}
 }
+

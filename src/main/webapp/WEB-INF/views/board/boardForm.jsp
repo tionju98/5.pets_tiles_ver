@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <%
-	request.setCharacterEncoding("UTF-8");
+   request.setCharacterEncoding("UTF-8");
 %>          
 <!DOCTYPE html>
 <html>
@@ -13,74 +13,83 @@
 <link href="${pageContext.request.contextPath}/resources/css/kfonts2.css" rel="stylesheet" >
 <title>게시글 작성</title>
 <style type="text/css">
-		.text_center {
-			text-align: center;
-		}
-		table{
-		    width: 70%;
-		    border-collapse: collapse;
-		    line-height: 24px;
-		}
-		th {
-		    border-top:1px solid black;
-		    border-bottom:1px solid black;
-		    border-collapse: collapse;
-		    text-align: center;
-		    padding: 13px;
-		    background: rgb(221, 221, 221);
-		}
-		td{
-			border-bottom: 1px solid gray;
-			padding : 10px;
-		}
-	</style>
-	<script type="text/javascript">
-	function backToList(obj) {
-		obj.action = "${contextPath}/board/listBoards.do"
-		obj.submit();
-	}
-	</script>
+      .text_center {
+         text-align: center;
+      }
+      table{
+          width: 70%;
+          border-collapse: collapse;
+          line-height: 24px;
+      }
+      th {
+          border-top:1px solid black;
+          border-bottom:1px solid black;
+          border-collapse: collapse;
+          text-align: center;
+          padding: 13px;
+          background: rgb(221, 221, 221);
+      }
+      td{
+         border-bottom: 1px solid gray;
+         padding : 10px;
+      }
+   </style>
+   <script type="text/javascript">
+   function backToList(obj) {
+      obj.action = "${contextPath}/board/listBoards.do"
+      obj.submit();
+   }
+   </script>
 </head>
 
 <body>
-	<form action="${contextPath}/board/addBoard.do" method="post">
-		<h1 class="text_center">새글작성 페이지</h1>
-		<table align="center">
-			<tr>
-				<td width="200"><p align="right">제목</td>
-				<td width="400"><input type="text" name="qa_title" /> </td>
-			</tr>
-			
-			<tr>
-				<td width="200"><p align="right">카테고리</td>
-				<!-- <td width="400"><input type="text" name="qa_category" /> </td> -->
-				<td><select name="qa_category">
-					<option value="동물" >동물</option>
-					<option value="개인" >개인</option>
-					<option value="단체" >단체</option>
-					<option value="기타" >기타</option>
-				</select> </td>
-			</tr>
-			
-			<tr>
-				<td width="200"><p align="right">내용</td>
-				<td width="400"><textarea rows="20" cols="60" name="qa_content"></textarea> </td>
-			</tr>
-			
-			<tr>
-				<td width="200"><p align="right">아이디</td>
-				<td width="400"><input type="text" name="user_ID" value="${member.user_ID }" disabled/> </td>
-			</tr>
-			<tr>
-				<td width="200"><p>&nbsp;</p></td>
-				<td width="400">
-					<input type="submit" value="작성하기" />
-					<input type="button" class="btn btn-success" value="게시글목록" onclick="backToList(this.form)">
-					<input type="reset" value="다시입력" /> 
-					
-				</td>
-			</tr>
-		</table>
-	</form>
+   <form action="${contextPath}/board/addBoard.do" method="post" enctype="multipart/form-data">
+      <h1 class="text_center">새글작성 페이지</h1>
+      <table align="center">
+         <tr>
+            <td width="200"><p align="right">제목</td>
+            <td width="400"><input type="text" name="qaTitle" /> </td>
+         </tr>
+         
+         <tr>
+            <td width="200"><p align="right">카테고리</td>
+            <!-- <td width="400"><input type="text" name="qa_category" /> </td> -->
+            <td><select name="qaCategory">
+               <option value="동물" >동물</option>
+               <option value="개인" >개인</option>
+               <option value="단체" >단체</option>
+               <option value="기타" >기타</option>
+            </select> </td>
+         </tr>
+         
+         <tr>
+            <td width="200"><p align="right">내용</td>
+            <td width="400"><textarea rows="20" cols="60" name="qaContent"></textarea> </td>
+         </tr>
+            <tr>
+            <td width="200"><p align="center">공개여부</td>
+            <td colspan="2"><select name="qaSecret">
+               <option value="${board.qaSecret}" >공개여부 : ${board.qaSecret}</option>
+               <option value="Y" >공개</option>
+               <option value="N" >비공개</option>
+            </select> </td>
+         </tr>
+         
+         <tr>
+            <td width="200"><p align="right">아이디</td>
+            <td width="400"><input type="text" name="userID" value="${member.userID }" disabled/> </td>
+         </tr>
+      
+         <tr>
+            <td width="200"><p>&nbsp;</p></td>
+            <td width="400">
+               <input type="submit" value="작성하기" />
+               <input type="button" class="btn btn-success" value="게시글목록" onclick="backToList(this.form)">
+               <input type="reset" value="다시입력" /> 
+               
+            </td>
+         </tr>
+      </table>
+   </form>
 </body>
 </html>

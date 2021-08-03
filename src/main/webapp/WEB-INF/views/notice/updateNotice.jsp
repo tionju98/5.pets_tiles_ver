@@ -9,7 +9,7 @@
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="notice" value="${noticleMap.notice }" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
+<c:set var="notice" value="${noticeMap.notice }" />				<!-- NoticeServiceImpl서비스의 viewNotice() 메서드에서 noticeVO를 notice로 저장함 -->
 
 <!DOCTYPE html>
 <html>
@@ -50,16 +50,16 @@
 			
         	<!-- 공지사항 제목 -->
         	<div class="writer_header" style="padding: 20px;">
-        		<input type="text" name="no_title" style="width:600px;" value="${notice.no_title }">
-        		<input type="hidden" name="no_number" value="${notice.no_number }" />
+        		<input type="text" name="noTitle" style="width:600px;" value="${notice.noTitle }">
+        		<input type="hidden" name="noNumber" value="${notice.noNumber }" />
         	</div>
         	<!-- 공지사항 내용 -->
         	<div class="writer_content">
-        		<textarea name="no_content" rows="8" cols="42"style="height: 300px; width:600px;">${notice.no_content }</textarea>
+        		<textarea name="noContent" rows="8" cols="42"style="height: 300px; width:600px;">${notice.noContent }</textarea>
         	</div>
         	<!-- 공지사항 첨부파일 -->
         	<div class="writer_img" style="padding: 20px;">
-        		<input type="file" name="no_image"/>
+        		<input type="file" name="noImage"/>
         	</div>
 		
 			<img src="#">

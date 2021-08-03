@@ -23,14 +23,10 @@
 		String insert_animals = "등록된 유기 동물 수";
 	%>
 	
-	<div class="jumbotron">
-		<div class="container" >
-			<p><%=d_animals%></p>
-			<p><%=d_dogs%></p>
-			<p><%=d_cats%></p>
-			<p><%=insert_animals%></p>
-		</div>
+	<div>		
+		<img alt="" src="${contextPath}/resources/image/friend.jpg" width="90%" height="100%">
 	</div>
+	<br/>
 	<div class="container">
 		<div class="text-left">
 		<h3>DOG</h3>

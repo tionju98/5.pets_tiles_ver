@@ -34,6 +34,11 @@
 			reader.readAsDataURL(input.files[0]);				// reader가 File내용을 읽어 DataURL형식의 문자열로 저장
 		}
 	}
+    
+    function backToList(obj) {
+        obj.action = "${contextPath}/notice/listNotices.do"
+        obj.submit();
+     }
     </script>
 </head>
 <body>
@@ -45,11 +50,11 @@
         <form action="${contextPath}/notice/addNotice.do" method="post" enctype="multipart/form-data" style="text-align: center; margin-top: 20px; margin-bottom: 20px; display:inline-block;">
         	<!-- 공지사항 제목 -->
         	<div class="writer_header" style="padding: 20px;">
-        		<input type="text" name="no_title" placeholder="제목" style="width:600px;">
+        		<input type="text" name="noTitle" placeholder="제목" style="width:600px;">
         	</div>
         	<!-- 공지사항 내용 -->
         	<div class="writer_content">
-        		<textarea name="no_content" rows="8" cols="42"style="height: 300px; width:600px;"></textarea>
+        		<textarea name="noContent" rows="8" cols="42"style="height: 300px; width:600px;"></textarea>
         	</div>
         	<!-- 공지사항 첨부파일 -->
         	<div class="writer_img" style="padding: 20px;">
@@ -62,7 +67,7 @@
         	<!-- 공지사항 등록버튼 -->
             <div style="margin-top: 20px; text-align: right;">
             	<input type="submit" value="등록" class="btn">
-            	<input type=button value="취소" OnClick="javascript:history.back(-1)" class="btn">
+            	<input type=button value="취소"  onclick="backToList(this.form)" class="btn">
             </div>
         	
         </form>

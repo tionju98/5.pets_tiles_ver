@@ -42,13 +42,16 @@
 	
 	</head>
 <body>
-	<div id="container" style="margin-bottom: 20px; margin-top: 20px;">
-    	<div  class="jumbotron"><h2>공지사항</h2></div>
+	<form action="" id="container" style="margin-bottom: 20px; margin-top: 20px;">
+    	<div  class="jumbotron" style="margin-top: 20px;">
+    		<h2>공지사항</h2>
+    	</div>
+    	
     	<table>
     	
     		<tr style="align: right;">
     			<td colspan="5" style="display:inline-block; border:white;">
-    				<a href="${contextPath}/notice/insertNotice.do">글 작성하기</a>
+    				<a href="${contextPath}/notice/insertNotice.do" style="text-align: right;">글 작성하기</a>
     			</td>
     		</tr>
     		
@@ -76,12 +79,12 @@
 						<c:forEach var="notice" items="${noticesList }" varStatus="noticeNum">
 					
 							<tr align="center">
-								<td>${notice.no_number }</td>
+								<td>${notice.noNumber }</td>
 								<%-- <td><a href="${contextPath}/notice/viewNotice.do?no_number=${notice.no_number}">${notice.no_title }</a></td> --%>
-								<td><a href="${contextPath}/notice/viewNotice.do?no_number=${notice.no_number}">${notice.no_title }</a></td>
-								<td>${notice.no_writer }</td>
-								<td>${notice.no_date }</td>
-								<td>${notice.no_hits }</td>
+								<td><a href="${contextPath}/notice/viewNotice.do?noNumber=${notice.noNumber}">${notice.noTitle }</a></td>
+								<td>${notice.noWriter }</td>
+								<td>${notice.noDate }</td>
+								<td>${notice.noHits }</td>
 							</tr>
 		
 						</c:forEach>
@@ -131,6 +134,6 @@
 					</c:if>
 				</div>
     	
-    </div>
+    </form>
 </body>
 </html>

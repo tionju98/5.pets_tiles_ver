@@ -33,15 +33,23 @@ public class NoticeDAOImpl implements NoticeDAO{
 		return totNotices;
 	}
 	
+	//01-3 공지사항 이미지
+	@Override
+	public List<NoticeImageVO> selectNoticeImageFileList(int noNumber) throws DataAccessException {
+		List<NoticeImageVO> noticeImageFileList = sqlSession.selectList("mapper.notice.selectNoticeImageFileList", noNumber);
+		
+		return noticeImageFileList;
+	}
+	
 	//02-1. 공지사항 등록
 	@Override
 	public int insertNotice(Map noticeMap) throws DataAccessException {
 		//articleNo 값이 기존 max 값 + 1이 되어야 함.
-		int no_number = selectNoticeNo();
-		noticeMap.put("no_number", no_number);
+		int noNumber = selectNoticeNo();
+		noticeMap.put("noNumber", noNumber);
 		
 		sqlSession.insert("mapper.notice.insertNotice", noticeMap);
-		return no_number;
+		return noNumber;
 		
 	}
 	
@@ -50,7 +58,7 @@ public class NoticeDAOImpl implements NoticeDAO{
 	@Override
 	public void insertNoticeImage(Map noticeMap) throws DataAccessException {
 		List<NoticeImageVO> noticeImageFileList = (ArrayList)noticeMap.get("noticeImageFileList");
-		int no_number = (Integer)noticeMap.get("no_number");
+		int noNumber = (Integer)noticeMap.get("noNumber");
 		
 		//이미지파일들은 별도의 테이블에 별도의 imageFileNo로 저장함.
 		int noticeImageFileNo = selectNoticeImageFileNo();				//기존 파일 No값을 먼저 구한다.
@@ -59,7 +67,7 @@ public class NoticeDAOImpl implements NoticeDAO{
 			//여러 이미지일경우 대비
 			for (NoticeImageVO noticeImageVO : noticeImageFileList) {
 				noticeImageVO.setNoticeImageNo(noticeImageFileNo);
-				noticeImageVO.setNo_number(no_number);
+				noticeImageVO.setNoNumber(noNumber);
 			}
 			//(다중) 파일 insert (별도의 테이블에다 함)
 			sqlSession.insert("mapper.notice.insertImage", noticeImageFileList);
@@ -84,15 +92,15 @@ public class NoticeDAOImpl implements NoticeDAO{
 	
 	//03. 공지사항 상세보기
 	@Override
-	public NoticeVO viewNotice(int no_number) throws DataAccessException {
+	public NoticeVO viewNotice(int noNumber) throws DataAccessException {
 		
-		return sqlSession.selectOne("mapper.notice.viewNotice",no_number);
+		return sqlSession.selectOne("mapper.notice.viewNotice",noNumber);
 	}
 	
 	//04. 공지사항 삭제
 	@Override
-	public int removeNotice(int no_number) throws DataAccessException {
-		int result = sqlSession.delete("mapper.notice.removeNotice",no_number);
+	public int removeNotice(int noNumber) throws DataAccessException {
+		int result = sqlSession.delete("mapper.notice.removeNotice",noNumber);
 		return result;
 	}
 	
@@ -102,6 +110,7 @@ public class NoticeDAOImpl implements NoticeDAO{
 		sqlSession.update("mapper.notice.updateNotice",noticeMap);
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!DAO");	
 	}
+	
 
 	
 

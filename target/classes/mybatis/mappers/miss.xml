@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="mapper.miss">
+  	
+  	<resultMap type="missVO" id="missResult">
+  		<result property="level" column="lvl" />
+  		<result property="missBoardNum" column="missBoardNum" />
+  		<result property="missName" column="missName" />
+  		<result property="userNAME" column="userNAME" />
+  		<result property="userEmail" column="userEmail" />
+  		<result property="userAddress" column="userAddress" />
+  		<result property="userPhoneNumber" column="userPhoneNumber" />
+  		<result property="missKind" column="missKind" />
+  		<result property="missGender" column="missGender" />
+  		<result property="missAge" column="missAge" />
+  		<result property="missPlace" column="missPlace" />
+  		<result property="missMissdate" column="missMissdate" />
+  		<result property="missCharacter" column="missCharacter" />
+  		<result property="missRegistNum" column="missRegistNum" />
+  		<result property="missImg" column="missImg" />
+  		<result property="userID" column="userID" />
+  	</resultMap>
+  	
+  	<select id="selectAllBoardList" resultMap="missResult">
+  <![CDATA[
+  	
+ 	 select * from (
+		                select rownum as recNum
+		                      ,missBoardNum
+		                      ,missName
+		                      ,userNAME
+		                      ,missKind
+		                      ,missGender
+		                      ,missPlace
+		                      ,missMissdate
+		                      ,missCharacter
+		                      ,missImg
+		                      ,userId
+		                from (
+		                select 
+			                      missBoardNum
+			                      ,missName
+			                      ,userNAME
+			                      ,missKind
+			                      ,missGender
+			                      ,missPlace
+			                      ,missMissdate
+			                      ,missCharacter
+			                      ,missImg
+			                      ,userId
+		                        from missBoard
+		                      )  
+		            )
+		where recNum BETWEEN (#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10
+		
+ 
+  ]]>
+  </select>
+  
+  <select id="selectTotBoards" resultType="int">
+		select count(missBoardNum) from missBoard
+	</select>
+  
+  <insert id="insertBoard" parameterType="java.util.Map">
+  	<![CDATA[
+  		insert into missBoard (missBoardNum
+  								  ,missName
+  								  ,userNAME
+			                      ,userEmail
+			                      ,userAddress
+			                      ,userPhoneNumber
+			                      ,missKind
+			                      ,missGender
+			                      ,missAge
+			                      ,missPlace
+			                      ,missMissdate
+			                      ,missCharacter
+			                      ,missRegistNum
+			                      ,missImg
+			                      ,userID)
+
+  		values (					#{missBoardNum} 
+  								  ,#{missName}
+  								  ,#{userNAME}
+			                      ,#{userEmail}
+			                      ,#{userAddress}
+			                      ,#{userPhoneNumber}
+			                      ,#{missKind}
+			                      ,#{missGender}
+			                      ,#{missAge}
+			                      ,#{missPlace}
+			                      ,#{missMissdate}
+			                      ,#{missCharacter}
+			                      ,#{missRegistNum}
+			                      ,#{missImg}
+			                      ,#{userID})
+  	]]>
+  </insert>
+  
+  <select id="selectNewMiss_boardNum" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(missBoardNum), 0) + 1 FROM missBoard
+		]]>
+	</select>
+  
+  <delete id="deleteBoard" parameterType="Integer">
+  		<![CDATA[
+  			delete from missBoard
+  			where
+  			missBoardNum=#{missBoardNum}
+  		]]>
+  	</delete>
+  
+  <select id="viewBoard" parameterType="Integer" resultType="missVO">
+  	<![CDATA[
+  		select * from missBoard
+  		where 
+  		missBoardNum=#{missBoardNum}
+  	]]>
+  </select>
+  
+  <update id="updateBoard" parameterType="java.util.Map" >
+  	<![CDATA[
+  		update missBoard set
+  			missName = #{missName},
+  			missKind = #{missKind},
+  			missGender = #{missGender},
+  			missAge = #{missAge},
+  			missPlace = #{missPlace},
+  			missMissdate = #{missMissdate},
+  			missCharacter = #{missCharacter},
+  			missRegistNum = #{missRegistNum},
+  			missImg = #{missImg}
+  		where missBoardNum = #{missBoardNum}
+  	]]>
+  </update>
+  
+  <select id="selectKeywordSearch" resultType="String" parameterType="String">
+		<![CDATA[
+			SELECT missName FROM missBoard
+			WHERE 
+			missName LIKE '%' || #{keyword} || '%' 
+		
+		]]>
+	</select>
+	
+	<select id="selectBoardsBySearchWord" resultMap="missResult" parameterType="String">
+			SELECT T.* FROM missBoard T
+			WHERE 
+			T.missName LIKE '%' || #{searchWord} || '%' 
+		
+	</select>
+  	
+  </mapper>

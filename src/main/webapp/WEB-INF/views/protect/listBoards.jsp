@@ -7,6 +7,8 @@
 <c:set var="totBoards" value="${boardMap.totBoards }" />
 <c:set var="section" value="${boardMap.section }" />
 <c:set var="pageNum" value="${boardMap.pageNum }" />
+<c:set var="proPets" value="${articleMap.proPets }" />
+<c:set var="imageFileList" value="${articleMap.imageFileList}" />
 <% 
 	request.setCharacterEncoding("UTF-8"); 
 %>
@@ -15,18 +17,19 @@
 <head>
 	<meta charset="UTF-8">
 	<title>보호동물 등록 게시판</title>
+	<link href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" rel="stylesheet" >
+	<link href="${pageContext.request.contextPath}/resources/css/kfonts2.css" rel="stylesheet" >
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script type="text/javascript" src="${contextPath}/resources/jquery/jquery-3.6.0.min.js"></script>
-	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css">
 	<script type="text/javascript">
-		function readURL(input) {
-			if (input.files && input.files[0]) {							/* 이미지 파일 첨부 시 미리 보기 기능 */
+		function readURL(input, index) {
+			if(input.files && input.files[0]) {			//input 태그에 첫번째 선택파일이 있을때
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					$('#preview').attr("src", e.target.result);				/* e.target은 이벤트가 일어난 대상, 즉 input 자신을 가리킴*/
-				}															/* result는 첨부파일들이 특수하게 가공된 URL을 출력해 줄것임. */
-				reader.readAsDataURL(input.files[0]);
-			}
+					$('#preview' + index).attr('src', e.target.result);		// input file로 이미지 파일을 선택시 	id가 preview인 <img>태그에 src속성 값에 이미지를 바로 보이도록 변경 
+				}
+				reader.readAsDataURL(input.files[0]);				// reader가 File내용을 읽어 DataURL형식의 문자열로 저장
+			}	
 		}
 	</script>
 	
@@ -89,32 +92,42 @@
 				<input name="search" class="" type="submit" value="검색"/>
 			</div>
 		</form>
-	</div>
-	
-	<br>
+	</div><br>
 		
-		<c:set var="num" value="${boardMap.totBoards - ((boardMap.pageNum-1)*10) }" />
+	<c:set var="num" value="${boardMap.totBoards - ((boardMap.pageNum-1)*10) }" />
 		<c:forEach var="board" items="${boardsList }" varStatus="boardNum">
 			
-				<div style="width: 45%; height: 170px; border: 1px solid gray; float: left; margin: 10px">
+				<div style="width: 45%; height: 300px; border: 1px solid gray; float: left; margin: 10px;">
 					<li>
 						<div class="col-md-4">
 						    <div>
 						    	<div style="display: block;">
-					        	    <a><img src="../resources/image/unnamed.jpg" alt="sometext"/></a>
+		        	    			<c:choose>
+										<c:when test="${not empty imageFileList && imageFileList != 'null' }">
+											<c:forEach var="item" items="${imageFileList}" varStatus="status">
+												<tr id="tr_${status.count}">
+													<td>
+														<input type="hidden" name="originalFileName" value="${item.imageFileName}" />
+														<input type="hidden" name="imgaeFileNo" value="${item.imageFileNo}">
+														<img alt="사진" src="${contextPath}/download.do?proBoardNum=${board.proBoardNum}&imageFileName=${item.imageFileName}" id="preview${status.index}" width="300"><br/>
+													</td>
+												</tr>				
+											</c:forEach>							
+										</c:when>
+										
+									</c:choose>
 					            </div>
-					            
 						    </div>
 						    <div>
-						        <dl><dt>공고번호</dt><dd>${board.pro_noticeNum }</dd></dl><br/>
-						        <dl><dt>접수일자</dt><dd>${board.pro_findDate }</dd></dl><br/>
-						        <dl><dt>품종</dt><dd>${board.pro_kind }</dd></dl><br/>
-						        <dl><dt>성별</dt><dd>${board.pro_gender }</dd></dl><br/>
-						        <dl><dt>발견장소</dt><dd>${board.pro_place }</dd></dl><br/>
-						        <dl><dt>특징</dt><dd>${board.pro_character }</dd></dl><br/>
-						        <dl><dt>상태</dt><dd>${board.pro_state }</dd></dl><br>
+						        <dl><dt>공고번호</dt><dd>${board.proNoticeNum }</dd></dl><br/>
+						        <dl><dt>접수일자</dt><dd>${board.proFindDate }</dd></dl><br/>
+						        <dl><dt>품종</dt><dd>${board.proKind }</dd></dl><br/>
+						        <dl><dt>성별</dt><dd>${board.proGender }</dd></dl><br/>
+						        <dl><dt>발견장소</dt><dd>${board.proPlace }</dd></dl><br/>
+						        <dl><dt>특징</dt><dd>${board.proCharacter }</dd></dl><br/>
+						        <dl><dt>상태</dt><dd>${board.proState }</dd></dl><br>
 						        <div style="float: left;">
-					        		<a href="${contextPath}/protect/viewBoard.do?pro_boardNum=${board.pro_boardNum}"><p style="font-size: 12px;">  자세히 보기</p></a>
+					        		<a href="${contextPath}/protect/viewBoard.do?proBoardNum=${board.proBoardNum}"><p style="font-size: 12px;">  자세히 보기</p></a>
 					        	</div>
 						    </div>
 						</div>
@@ -123,6 +136,7 @@
 			<c:set var="num" value="${num-1 }"></c:set>
 		</c:forEach>
 	<div style="clear: both;"></div> 
+	
 	<div class="class2">
 		<c:if test="${totBoards != null }">
 			<c:choose>
@@ -164,10 +178,6 @@
 			</c:choose>
 		</c:if>
 	</div>
-	
-	
-	
-	<a class="class1" href="${contextPath}/protect/boardForm.do"><p class="class2">등록하기</a>
 	
 	<a class="class1" href="javascript:fn_boardForm('${isLogOn}', '${contextPath}/protect/boardForm.do', '${contextPath}/member/loginForm.do')"><p class="class2">등록하기</a>
 	

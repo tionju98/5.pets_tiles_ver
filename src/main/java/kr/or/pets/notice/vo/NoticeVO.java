@@ -7,116 +7,117 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
+
+/*noNumber   number(20)   not null      PRIMARY KEY
+, noTitle   varchar2(20)   not null
+, noContent   varchar2(4000)   not null
+, noWriter   varchar2(20)
+, noDate    date default sysdate 
+, noHits   number(20)
+, noImage   varchar2(30)  */
+
 @Component("noticeVO")
 public class NoticeVO {
-	private int no_number;
-	private String no_title;
-	private String no_content;
-	private String no_writer;
-	private Date no_date;
-	private int no_hits;
-	private String no_image;
+	private int noNumber;
+	private String noTitle;
+	private String noContent;
+	private String noWriter;
+	private Date noDate;
+	private int noHits;
+	private String noImage;
 	
 	
-	public NoticeVO() {
-		// TODO Auto-generated constructor stub
+
+
+
+	public int getNoNumber() {
+		return noNumber;
 	}
 
 
-	public NoticeVO(String no_title, String no_content, String no_writer, String no_image) {
-		super();
-		this.no_title = no_title;
-		this.no_content = no_content;
-		this.no_writer = no_writer;
-		this.no_image = no_image;
+	public void setNoNumber(int noNumber) {
+		this.noNumber = noNumber;
 	}
 
 
-	public int getNo_number() {
-		return no_number;
+	public String getNoTitle() {
+		return noTitle;
 	}
 
 
-	public void setNo_number(int no_number) {
-		this.no_number = no_number;
+	public void setNoTitle(String noTitle) {
+		this.noTitle = noTitle;
 	}
 
 
-	public String getNo_title() {
-		return no_title;
+	public String getNoContent() {
+		return noContent;
 	}
 
 
-	public void setNo_title(String no_title) {
-		this.no_title = no_title;
+	public void setNoContent(String noContent) {
+		this.noContent = noContent;
 	}
 
 
-	public String getNo_content() {
-		return no_content;
+	public String getNoWriter() {
+		return noWriter;
 	}
 
 
-	public void setNo_content(String no_content) {
-		this.no_content = no_content;
+	public void setNoWriter(String noWriter) {
+		this.noWriter = noWriter;
 	}
 
 
-	public String getNo_writer() {
-		return no_writer;
+	public Date getNoDate() {
+		return noDate;
 	}
 
 
-	public void setNo_writer(String no_writer) {
-		this.no_writer = no_writer;
+	public void setNoDate(Date noDate) {
+		this.noDate = noDate;
 	}
 
 
-	public Date getNo_date() {
-		return no_date;
+	public int getNoHits() {
+		return noHits;
 	}
 
 
-	public void setNo_date(Date no_date) {
-		this.no_date = no_date;
+	public void setNoHits(int noHits) {
+		this.noHits = noHits;
 	}
 
 
-	public int getNo_hits() {
-		return no_hits;
-	}
-
-
-	public void setNo_hits(int no_hits) {
-		this.no_hits = no_hits;
-	}
-
-
-	public String getNo_image() {
+	public String getNoImage() {
+		
 		try {
 			
-			if(no_image != null && no_image.length() != 0) {
-				no_image = URLDecoder.decode(no_image, "utf-8");
+			if(noImage != null && noImage.length() != 0) {
+				noImage = URLDecoder.decode(noImage, "utf-8");
 			}
 			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		
-		return no_image;
+		return noImage;
 	
 	}
 
 
-	public void setNo_image(String no_image) {
+	public void setNoImage(String noImage) {
 		try {
-			if(no_image != null && no_image.length() != 0) {
-				this.no_image = URLEncoder.encode(no_image, "utf-8");
+			if(noImage != null && noImage.length() != 0) {
+				this.noImage = URLEncoder.encode(noImage, "utf-8");
 			}
 		} catch (UnsupportedEncodingException e ) {
 			e.printStackTrace();
 		}
 	}
+
+
 	
 	
 }

@@ -1,5 +1,6 @@
 package kr.or.pets.member.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,8 +32,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public int deleteMember(String user_ID) throws DataAccessException {
-		int result = sqlSession.delete("mapper.member.deleteMember", user_ID);
+	public int deleteMember(String userID) throws DataAccessException {
+		int result = sqlSession.delete("mapper.member.deleteMember", userID);
 		return result;
 	}
 
@@ -47,6 +48,20 @@ public class MemberDAOImpl implements MemberDAO {
 	public List selectAllShelterList() throws DataAccessException {
 		List<MemberVO> membersList = sqlSession.selectList("mapper.member.selectAllShelterList");
 		return membersList;
+	}
+	
+	@Override
+	public List<MemberVO> selectBoardsBySearchWord(String searchWord) throws DataAccessException {
+		ArrayList<MemberVO> list = (ArrayList)sqlSession.selectList("mapper.member.selectBoardsBySearchWord", searchWord);
+		
+		return list;
+	}
+
+	@Override
+	public List<String> selectKeywordSearch(String keyword) throws DataAccessException {
+		List<String> list = sqlSession.selectList("mapper.member.selectKeywordSearch", keyword);
+		
+		return list;
 	}
 }
 

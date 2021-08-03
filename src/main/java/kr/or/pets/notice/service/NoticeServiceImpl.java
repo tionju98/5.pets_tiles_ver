@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.accept.ServletPathExtensionContentNegotiationStrategy;
 
 import kr.or.pets.notice.dao.NoticeDAO;
+import kr.or.pets.notice.vo.NoticeImageVO;
 import kr.or.pets.notice.vo.NoticeVO;
 
 @Service("noticeService")
@@ -45,19 +46,24 @@ public class NoticeServiceImpl implements NoticeService {
 	//02. 공지사항 등록
 	@Override
 	public int addNotice(Map noticeMap) throws DataAccessException {
-		int no_number = noticeDAO.insertNotice(noticeMap);
-		noticeMap.put("no_number", no_number);
+		int noNumber = noticeDAO.insertNotice(noticeMap);
+		noticeMap.put("noNumber", noNumber);
 		noticeDAO.insertNoticeImage(noticeMap);
-		return no_number;
+		return noNumber;
 	}
 	
 	//03. 공지사항 상세보기
 	@Override
-	public Map viewNotice(int no_number) throws DataAccessException {
+	public Map viewNotice(int noNumber) throws DataAccessException {
 		Map noticeMap = new HashMap();
-		NoticeVO noticeVO = noticeDAO.viewNotice(no_number);
+		NoticeVO noticeVO = noticeDAO.viewNotice(noNumber);
+		//이미지 파일 보기추가
+		List<NoticeImageVO> noticeImageFileList = noticeDAO.selectNoticeImageFileList(noNumber);
+		
 		
 		noticeMap.put("notice", noticeVO);
+		//이미지 파일 보기추가
+		noticeMap.put("noticeImageFileList", noticeImageFileList);
 		
 		return noticeMap;
 	}
@@ -65,12 +71,13 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	//04. 공지사항 삭제
 	@Override
-	public int removeNotice(int no_number) throws DataAccessException {
-		return noticeDAO.removeNotice(no_number);
+	public int removeNotice(int noNumber) throws DataAccessException {
+		return noticeDAO.removeNotice(noNumber);
 	}
 
 	//05-2. 공지사항 수정
 	@Override
+	
 	public Map updateNotice(Map noticeMap) throws Exception {
 
 		noticeDAO.updateNotice(noticeMap);

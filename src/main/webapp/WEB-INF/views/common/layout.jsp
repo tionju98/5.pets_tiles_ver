@@ -11,7 +11,10 @@
 	<style type="text/css">
 		#container{
 			width: 100%;
-			margin: 0px auto;
+			height:100%;
+			position: absolute;
+			left: 0px;
+			right: 0px;
 			text-align: center;
 			border: 0px solid #bcbcbc;
 		}
@@ -21,11 +24,14 @@
 			boder: 0px solid #bcbcbc;
 		}
 		#footer{
+			position: relative;
+			width: 100%;
+			margin: 0px auto;
+			bottom: 0px;
 			clear: both;
 			padding:5px;
 			border: 0px solid #bcbcbc;
 		}
-		
 	</style>
 	</head>
 <body>
@@ -38,10 +44,11 @@
 		<div id="content">
 			<tiles:insertAttribute name="body" />
 		</div>
-		
 		<div id="footer">
 			<tiles:insertAttribute name="footer" />
 		</div>
+		
 	</div>
+	
 </body>
 </html>

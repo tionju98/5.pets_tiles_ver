@@ -20,10 +20,10 @@ public interface NoticeService {
 
 	 	
 	 	//03. 공지사항 상세보기
-	 	public Map viewNotice(int no_number) throws Exception;
+	 	public Map viewNotice(int noNumber) throws Exception;
 	 	
 	 	//04. 공지사항 삭제
-	 	public int removeNotice(int no_number) throws Exception;
+	 	public int removeNotice(int noNumber) throws Exception;
 	 	
 	 	//05-1. 공지사항 수정폼 이동
 		

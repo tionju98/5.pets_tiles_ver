@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+       
+       <tiles-definitions>
+
+	<definition name="/miss/m_listBoards" extends="baseLayout">							<!-- name: 메인 화면의 뷰이름을 지정함. extends: 기본적인 레이아웃은 baseLayout을 상속받음.-->				
+		<put-attribute name="title" value="실종동물" />
+		<put-attribute name="body" value="/WEB-INF/views/miss/m_listBoards.jsp" />		<!-- value: 레이아웃에서 본문을 표시할 JSP 지정함. -->
+	</definition>
+	
+	<definition name="/miss/missForm" extends="baseLayout">
+		<put-attribute name="title" value="실종 작성" />
+		<put-attribute name="body" value="/WEB-INF/views/miss/missForm.jsp" />
+	</definition>	
+	
+	<definition name="/miss/m_viewBoard" extends="baseLayout">
+		<put-attribute name="title" value="실종동물 상세보기" />
+		<put-attribute name="body" value="/WEB-INF/views/miss/m_viewBoard.jsp" />
+	</definition>
+	
+</tiles-definitions>      

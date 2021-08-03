@@ -5,25 +5,25 @@
   
   <mapper namespace="mapper.member">
   	<resultMap type="memberVO" id="memResult">
-  		<result property="user_ID" column="user_ID"/>
-  		<result property="user_PW" column="user_PW"/>
-  		<result property="user_NAME" column="user_NAME"/>
-  		<result property="user_Email" column="user_Email"/>
-  		<result property="user_Address" column="user_Address"/>
-  		<result property="user_PhoneNumber" column="user_PhoneNumber"/>
-  		<result property="user_IC" column="user_IC"/>
+  		<result property="userID" column="userID"/>
+  		<result property="userPW" column="userPW"/>
+  		<result property="userNAME" column="userNAME"/>
+  		<result property="userEmail" column="userEmail"/>
+  		<result property="userAddress" column="userAddress"/>
+  		<result property="userPhoneNumber" column="userPhoneNumber"/>
+  		<result property="userIC" column="userIC"/>
   	</resultMap>
   	
   	<select id="selectAllMemberList" resultMap="memResult">
   		<![CDATA[
-  			SELECT * FROM pets_user
+  			SELECT * FROM petsUser
   		]]>
   	</select>
   	
   	<select id="selectAllShelterList" resultMap="memResult">
   		<![CDATA[
-  				SELECT * FROM pets_user
-  				where user_IC like '%Corporation%'
+  				SELECT * FROM petsUser
+  				where userIC like '%Corporation%'
   		]]>
   	</select>
   	
@@ -31,23 +31,39 @@
   	
   	<insert id="insertMember" parameterType="memberVO" >
   		<![CDATA[
-  			INSERT INTO pets_user(user_ID, user_PW, user_NAME, user_Email, user_Address, user_PhoneNumber, user_IC)
-  			VALUES (#{user_ID}, #{user_PW}, #{user_NAME}, #{user_Email}, #{user_Address}, #{user_PhoneNumber}, #{user_IC, jdbcType=VARCHAR})
+  			INSERT INTO petsUser(userID, userPW, userNAME, userEmail, userAddress, userPhoneNumber, userIC)
+  			VALUES (#{userID}, #{userPW}, #{userNAME}, #{userEmail}, #{userAddress}, #{userPhoneNumber}, #{userIC, jdbcType=VARCHAR})
   		]]>
   	</insert>
   	
   	<delete id="deleteMember" parameterType="String">
   		<![CDATA[
-  			DELETE FROM pets_user
-  			WHERE user_ID = #{user_ID}
+  			DELETE FROM petsUser
+  			WHERE userID = #{userID}
   		]]>
   	</delete>
   	
   	<select id="loginById" resultType="memberVO" parameterType="memberVO">
 		<![CDATA[
-			SELECT * FROM  pets_user
-			WHERE user_ID=#{user_ID} AND user_PW=#{user_PW}
+			SELECT * FROM  petsUser
+			WHERE userID=#{userID} AND userPW=#{userPW}
 		]]>
 	</select>
   	
+  	
+  	<select id="selectKeywordSearch" resultType="String" parameterType="String">
+		<![CDATA[
+			SELECT userAddress FROM petsUser
+			WHERE 
+			userAddress LIKE '%' || #{keyword} || '%' AND userIC LIKE '%Corporation%'
+		
+		]]>
+	</select>
+	
+	<select id="selectBoardsBySearchWord" resultMap="memResult" parameterType="String">
+			SELECT T.* FROM petsUser T
+			WHERE 
+			T.userAddress LIKE '%' || #{searchWord} || '%' AND userIC LIKE '%Corporation%'
+		
+	</select>
   </mapper>

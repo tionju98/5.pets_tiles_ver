@@ -189,32 +189,32 @@
 		<img src="${contextPath}/resources/image/join.png"  width="70" height="70"><h2 style="left:700px;"><b>JOIN!</b></h2>
 	
 		<div class="Form">
-				<input type="text" class="id" placeholder="ID" name="user_ID" required />
+				<input type="text" class="id" placeholder="ID" name="userID" required />
 		</div>
 		
 		<div class="Form">
-				<input type="password" class="pw" placeholder="PW(문자,숫자,기호를 포함하여 8자 이상 사용)" name="user_PW" required />
+				<input type="password" class="pw" placeholder="PW(문자,숫자,기호를 포함하여 8자 이상 사용)" name="userPW" required />
 		</div>
 		
 		<div class="Form" >
-				<input type="text" class="name" placeholder="NAME" name="user_NAME" required />
+				<input type="text" class="name" placeholder="NAME" name="userNAME" required />
 		</div>
 		
 		<div class="Form">
-				<input type="text" class="phonenumber" placeholder="PHONENUMBER('-'제외)" name="user_PhoneNumber" required />
+				<input type="text" class="phonenumber" placeholder="PHONENUMBER('-'제외)" name="userPhoneNumber" required />
 		</div>
 		
 		<div class="Form">
-				<input type="email" class="email" placeholder="EMAIL" name="user_Email" required />
+				<input type="email" class="email" placeholder="EMAIL" name="userEmail" required />
 		</div>
 		
 		<div class="Form">
 			<table> 
 				<tr>
-				 <td><input id="member_post" class="address1"  type="text" placeholder="Zip Code" readonly onclick="findAddr()" name="user_Address"></td>
-  				 <td><input id="member_addr" class="address2"  type="text" placeholder="Address" readonly name="user_Address"> <br></td>
+				 <td><input id="member_post" class="address1"  type="text" placeholder="Zip Code" readonly onclick="findAddr()" name="userAddress"></td>
+  				 <td><input id="member_addr" class="address2"  type="text" placeholder="Address" readonly name="userAddress"> <br></td>
   			</table>
-  			<input type="text" class="address" placeholder="Detailed_Address" name="user_Address" />
+  			<input type="text" class="address" placeholder="Detailed_Address" name="userAddress" />
 		</div>
 		
 		<div class="Form">
@@ -222,8 +222,8 @@
 		
 			<div class="Option">
 				<div class="radio">
-				  <input type="radio" name="user_IC" value="Individual" />Individual<br/>
-				  <input type="radio" name="user_IC" value="Corporation" />Corporation
+				  <input type="radio" name="userIC" value="Individual" />Individual<br/>
+				  <input type="radio" name="userIC" value="Corporation" />Corporation
 				</div>
 			</div>	
 			

@@ -2,10 +2,12 @@ package kr.or.pets.board.controller;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import kr.or.pets.board.service.BoardService;
 import kr.or.pets.board.vo.BoardVO;
+import kr.or.pets.member.vo.MemberVO;
+import net.sf.json.JSONObject;
 
 @Controller("boardController")
 @EnableAspectJAutoProxy
@@ -36,21 +41,6 @@ public class BoardControllerImpl extends MultiActionController implements BoardC
 	private BoardVO boardVO;
 	
 
-	/*
-	 * @RequestMapping(value = "/board/shelter_location.do", method =
-	 * {RequestMethod.GET, RequestMethod.POST} ) public ModelAndView
-	 * shelter_location(HttpServletRequest request, HttpServletResponse response)
-	 * throws Exception { request.setCharacterEncoding("utf-8");
-	 * response.setContentType("html/text;charset=utf-8");
-	 * 
-	 * String viewName = (String)request.getAttribute("viewName");
-	 * 
-	 * logger.info("viewName" + viewName); ModelAndView mav = new ModelAndView();
-	 * mav.setViewName(viewName);
-	 * 
-	 * return mav; }
-	 */
-	
 	@RequestMapping(value = "/board/boardForm.do", method = {RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView boardForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
@@ -125,34 +115,75 @@ public class BoardControllerImpl extends MultiActionController implements BoardC
 	
 
 	@RequestMapping(value = "/board/removeBoard.do", method = {RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView removeBoard(@RequestParam("qa_No") int qa_No, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView removeBoard(@RequestParam("qaNo") int qaNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		
-		boardService.removeBoard(qa_No);
+		boardService.removeBoard(qaNo);
 		ModelAndView mav = new ModelAndView("redirect:/board/listBoards.do");
 		
 		return mav;
 	}
 
-	@RequestMapping(value = "/board/addBoard.do", method = {RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView addBoard(@ModelAttribute("board") BoardVO board, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
+	@RequestMapping(value = "/board/addBoard.do", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity addBoard(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
+		multipartRequest.setCharacterEncoding("utf-8");
 		
+		Map boardMap = new HashMap();
+		Enumeration enu = multipartRequest.getParameterNames();
+		while (enu.hasMoreElements()) {
+			String name = (String)enu.nextElement();
+			String value = multipartRequest.getParameter(name);
+			boardMap.put(name, value);
+		}
+		HttpSession session = multipartRequest.getSession();
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
 		
-		int result = boardService.addBoard(board);
+		String userID = memberVO.getUserID();				
+		boardMap.put("userID", userID);	
 		
-		ModelAndView mav = new ModelAndView("redirect:/board/listBoards.do");
-		
-		return mav;
-	}
+		 HttpHeaders responseHeaders = new HttpHeaders();
+		   responseHeaders.add("Content-Type", "text/html; charset=utf-8");
+		   String message;
+		   ResponseEntity responseEntity = null;
+		    
+		    try {
+		    	
+		     int boardNum = boardService.addBoard(boardMap);
+		     
+		     
+		     
+				  message = "<script>";
+				  message += " alert('새글을 등록했습니다.');";			  
+				  message += " location.href='"+multipartRequest.getContextPath()+"/board/viewBoard.do?qaNo="
+					  		+ boardMap.get("qaNo") +   "';";			  
+				  message += " </script>";
+				  
+				  responseEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);	     
+		     
+		    	
+		    } catch (Exception e) {
+				  message = "<script>";
+				  message += " alert('오류가 발생했습니다. 다시 시도해주세요.');";			  
+				  message += " location.href='"+multipartRequest.getContextPath()+"/board/boardForm.do';";
+				  message += " </script>";			  
+				  
+				  responseEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
+				  
+				  e.printStackTrace();
+			}
+			
+			return responseEntity;
+		}
+	
 
 	@RequestMapping(value = "/board/viewBoard.do", method = {RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView viewBoard(@RequestParam("qa_No") int qa_No, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView viewBoard(@RequestParam("qaNo") int qaNo, HttpServletRequest request, HttpServletResponse response) throws Exception {
 request.setCharacterEncoding("utf-8");
 		
 		String viewName = (String)request.getAttribute("viewName");
-		System.out.println("===============qa_No: " + qa_No);
-		Map boardMap = boardService.viewBoard(qa_No);
+		System.out.println("===============qaNo: " + qaNo);
+		Map boardMap = boardService.viewBoard(qaNo);
 				
 		ModelAndView mav = new ModelAndView();
 		
@@ -181,14 +212,15 @@ request.setCharacterEncoding("utf-8");
 		  responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 		  String message;
 		  ResponseEntity responseEntity = null;
-		  String qa_No = (String)boardMap.get("qa_No");
+		  String qaNo = (String)boardMap.get("qaNo");
+		 
 		  try {
 			  boardService.modBoard(boardMap);			//디비 수정
 
 			  message = "<script>";
 			  message += " alert('글을 수정했습니다.');";			  
-			  message += " location.href='"+request.getContextPath()+"/board/viewBoard.do?qa_No="
-				  		+ qa_No +   "';";			  
+			  message += " location.href='"+request.getContextPath()+"/board/viewBoard.do?qaNo="
+				  		+ qaNo +   "';";			  
 			  message += " </script>";
 
 			  responseEntity = new ResponseEntity(message, responseHeaders, HttpStatus.CREATED);
@@ -197,8 +229,8 @@ request.setCharacterEncoding("utf-8");
 
 			  message = "<script>";
 			  message += " alert('오류가 발생했습니다. 다시 수정해주세요.');";			  
-			  message += " location.href='"+request.getContextPath()+"/board/viewBoard.do?qa_No="
-					  + qa_No +   "';";
+			  message += " location.href='"+request.getContextPath()+"/board/viewBoard.do?qaNo="
+					  + qaNo +   "';";
 
 			  message += " </script>";			  
 
@@ -206,16 +238,9 @@ request.setCharacterEncoding("utf-8");
 		  }  
 		  return responseEntity;
 	  }
-	 
 	  
-
+	 
 	
-
-	@Override
-	public ModelAndView addBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public ModelAndView removeBoard(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -228,6 +253,5 @@ request.setCharacterEncoding("utf-8");
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	
 }

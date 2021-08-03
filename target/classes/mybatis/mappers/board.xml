@@ -7,13 +7,14 @@
   
   <resultMap type="boardVO" id="boardResult">
   	<result property="level" column="lvl"/>
-  	<result property="qa_No"  column="qa_No" />
-  	<result property="qa_parentNo"  column="qa_parentNo" />
-  	<result property="qa_title"  column="qa_title" />
-  	<result property="qa_category"  column="qa_category" />
-  	<result property="qa_content"  column="qa_content" />
-  	<result property="qa_date"  column="qa_date" />
-  	<result property="user_ID"  column="user_ID" />
+  	<result property="qaNo"  column="qaNo" />
+  	<result property="qaParentNo"  column="qaParentNo" />
+  	<result property="qaTitle"  column="qaTitle" />
+  	<result property="qaCategory"  column="qaCategory" />
+  	<result property="qaContent"  column="qaContent" />
+  	<result property="qaDate"  column="qaDate" />
+  	<result property="userID"  column="userID" />
+  	<result property="qaSecret" column="qaSecret" />
   </resultMap>
    
   <select id="selectAllBoardList" resultMap="boardResult">
@@ -21,70 +22,77 @@
   	
  	 select * from (
 		                select rownum as recNum, lvl
-		                      ,qa_No
-		                      ,qa_parentNo
-		                      ,qa_title
-		                      ,qa_category
-		                      ,qa_content
-		                      ,qa_date
-		                      ,user_ID
+		                      ,qaNo
+		                      ,qaParentNo
+		                      ,qaTitle
+		                      ,qaCategory
+		                      ,qaContent
+		                      ,qaDate
+		                      ,userID
+		                      ,qaSecret
 		                from (select level as lvl
-		                              ,qa_No
-		                              ,qa_parentNo
-				                      ,qa_title
-				                      ,qa_category
-				                      ,qa_content
-				                      ,qa_date
-				                      ,user_ID
-		                        from q_board
-		                        start WITH qa_parentNo=0              
-		                        CONNECT by PRIOR qa_No=qa_parentNo 
-		                        order SIBLINGS by qa_No desc
+		                              ,qaNo
+		                              ,qaParentNo
+				                      ,qaTitle
+				                      ,qaCategory
+				                      ,qaContent
+				                      ,qaDate
+				                      ,userID
+				                      ,qaSecret
+		                        from QBoard
+		                        start WITH qaParentNo=0              
+		                        CONNECT by PRIOR qaNo=qaParentNo 
+		                        order SIBLINGS by qaNo desc
 		                      )  
 		            )
-		where recNum BETWEEN (#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10 
+		where recNum BETWEEN (#{section}-1)*100+(#{pageNum}-1)*10+1 and (#{section}-1)*100+#{pageNum}*10
+		
  
   ]]>
   </select>
   
   <select id="selectTotBoards" resultType="int">
-		select count(qa_No) from q_board
+		select count(qaNo) from QBoard
 	</select>
   
-  <insert id="insertBoard" parameterType="boardVO">
+  <insert id="insertBoard" parameterType="java.util.Map">
   	<![CDATA[
-  		insert into q_board (qa_no, qa_title, qa_category, qa_content, user_ID)
+  		insert into QBoard (qaNo, qaTitle, qaCategory, qaContent, qaSecret, userID)
 
-  		values(
-  			(select nvl(max(qa_no)+1, 1)from q_board),
-  			#{qa_title}, #{qa_category}, #{qa_content}, #{user_ID}
-  		)
+  		values (#{qaNo}, #{qaTitle}, #{qaCategory}, #{qaContent}, #{qaSecret}, #{userID})
   	]]>
   </insert>
   
+  <select id="selectNewQa_No" resultType="int">
+		<![CDATA[
+			SELECT NVL(MAX(qaNo), 0) + 1 FROM QBoard
+		]]>
+	</select>
+  
   <delete id="deleteBoard" parameterType="Integer">
   		<![CDATA[
-  			delete from q_board
+  			delete from QBoard
   			where
-  			qa_No=#{qa_No}
+  			qaNo=#{qaNo}
   		]]>
   	</delete>
   
   <select id="viewBoard" parameterType="Integer" resultType="boardVO">
   	<![CDATA[
-  		select * from q_board
+  		select * from QBoard
   		where 
-  		qa_No=#{qa_No}
+  		qaNo=#{qaNo}
   	]]>
   </select>
   
   <update id="updateBoard" parameterType="java.util.Map" >
   	<![CDATA[
-  		update q_board set
-  			qa_title = #{qa_title},
-  			qa_category = #{qa_category},
-  			qa_content = #{qa_content}
-  		where qa_No = #{qa_No}
+  		update QBoard set
+  			qaTitle = #{qaTitle},
+  			qaCategory = #{qaCategory},
+  			qaContent = #{qaContent},
+  			qaSecret = #{qaSecret}
+  		where qaNo = #{qaNo}
   	]]>
   </update>
   

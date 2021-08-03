@@ -43,23 +43,25 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public int removeBoard(int qa_No) throws DataAccessException {
+	public int removeBoard(int qaNo) throws DataAccessException {
 		
-		return boardDAO.deleteBoard(qa_No);
+		return boardDAO.deleteBoard(qaNo);
 	}
 
 
 	@Override
-	public int addBoard(BoardVO boardVO) throws DataAccessException {
+	public int addBoard(Map boardMap) throws DataAccessException {
+		int qaNo = boardDAO.insertBoard(boardMap);
+		boardMap.put("qaNo", qaNo);
 		
-		return boardDAO.insertBoard(boardVO);
+		return qaNo;
 	}
 
 
 	@Override
-	public Map viewBoard(int qa_No) throws Exception {
+	public Map viewBoard(int qaNo) throws Exception {
 		Map boardMap = new HashMap();
-		BoardVO boardVO = boardDAO.viewBoard(qa_No);
+		BoardVO boardVO = boardDAO.viewBoard(qaNo);
 		
 		boardMap.put("board", boardVO);
 		
@@ -75,8 +77,19 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+	@Override
+	public List<String> keywordSearch(String keyword) throws Exception {
+		List<String> list = boardDAO.selectKeywordSearch(keyword);
+		
+		return list;
+	}
 
 
-
+	@Override
+	public List<BoardVO> searchBoards(String searchWord) throws Exception {
+		List<BoardVO> boardsList = boardDAO.selectBoardsBySearchWord(searchWord);
+		
+		return boardsList;
+	}
 	
 }
